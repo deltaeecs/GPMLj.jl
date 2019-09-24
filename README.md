@@ -21,13 +21,14 @@ A GP library in Julia
 
 3. Gardner, Jacob R., Geoff Pleiss, David Bindel, Kilian Q. Weinberger, and Andrew Gordon Wilson. ” GPyTorch: Blackbox Matrix-Matrix Gaussian Process Inference with GPU Acceleration.” In NeurIPS (2018).
 
-4. General intro paper on sparse variational inference in GP:
 
-5. Quiñonero-Candela, Joaquin, and Carl Edward Rasmussen. "A unifying view of sparse approximate Gaussian process regression." Journal of Machine Learning Research 6, no. Dec (2005): 1939-1959.
+General intro paper on sparse variational inference in GP:
 
-6. Bauer, Matthias, Mark van der Wilk, and Carl Edward Rasmussen. "Understanding probabilistic sparse Gaussian process approximations." In Advances in neural information processing systems, pp. 1533-1541. 2016. (GPFlow implements several algorithms here)
+4. Quiñonero-Candela, Joaquin, and Carl Edward Rasmussen. "A unifying view of sparse approximate Gaussian process regression." Journal of Machine Learning Research 6, no. Dec (2005): 1939-1959.
+
+5. Bauer, Matthias, Mark van der Wilk, and Carl Edward Rasmussen. "Understanding probabilistic sparse Gaussian process approximations." In Advances in neural information processing systems, pp. 1533-1541. 2016. (GPFlow implements several algorithms here)
 
 Also the GP book
 
-7. Gaussian Processes for Machine Learning,
+6. Gaussian Processes for Machine Learning,
 Carl Edward Rasmussen and Christopher K. I. Williams, MIT Press (2006). 
