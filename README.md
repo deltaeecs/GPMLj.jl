@@ -10,12 +10,12 @@ A GP library in Julia
 
 ## Related papers
 
-###GPFlow:
+### GPFlow:
 
 1. Matthews, De G., G. Alexander, Mark Van Der Wilk, Tom Nickson, Keisuke Fujii, Alexis Boukouvalas, Pablo León-Villagrá, Zoubin Ghahramani, and James Hensman. "GPflow: A Gaussian process library using TensorFlow." The Journal of Machine Learning Research 18, no. 1 (2017): 1299-1304.
 
 
-###GPyTorch:
+### GPyTorch:
 
 2. Wang, Ke Alexander, Geoff Pleiss, Jacob R. Gardner, Stephen Tyree, Kilian Q. Weinberger, and Andrew Gordon Wilson. "Exact Gaussian Processes on a Million Data Points." arXiv preprint arXiv:1903.08114 (2019).
 
