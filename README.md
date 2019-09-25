@@ -5,7 +5,7 @@ A GP library in Julia
 
 1. Add Julia interface for [GPFlow](https://github.com/GPflow/GPflow) and [GPt](https://github.com/ialong/GPt)
 2. Add Julia interface for [GPyTorch](https://github.com/cornellius-gp/gpytorch)
-3. Pure Julia support for GP by porting [GPML](https://github.com/alshedivat/gpml) (see e.g. [GPKit.jl](https://github.com/adriancu/GPkit.jl), [Stheno.jl](https://github.com/willtebbutt/Stheno.jl) and [STOR-i/GaussianProcesses.jl](https://github.com/STOR-i/GaussianProcesses.jl))  
+3. Pure Julia support for GP by porting [GPML](https://github.com/alshedivat/gpml) (see e.g. [GPKit.jl](https://github.com/adriancu/GPkit.jl), [Stheno.jl](https://github.com/willtebbutt/Stheno.jl), [theogf/AugmentedGaussianProcesses.jl](https://github.com/theogf/AugmentedGaussianProcesses.jl) and [STOR-i/GaussianProcesses.jl](https://github.com/STOR-i/GaussianProcesses.jl))  
 
 
 ## Related papers
