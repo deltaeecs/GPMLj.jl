@@ -1,7 +1,7 @@
 __precompile__()
 module gpflow
 using GPJ, PyCall
-
+import ..GPJ: compile!
 export  
 py_gpflow, 
 compile!,
@@ -25,6 +25,7 @@ py_gpflow=nothing;
 function __init__()
 global py_gpflow = pyimport("gpflow")
 end
+
 
 function compile!(o::Union{Model,Kernel,Likelihood,MeanFunction,ParameterPrior}) end
 

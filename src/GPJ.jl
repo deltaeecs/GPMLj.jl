@@ -6,8 +6,7 @@ export
 gpflow,
 compile!
 
-# TODO: Export compile! 
-# function compile!(o) end
+function compile!(o::Any) end
 
 include("gpflow.jl")
 
