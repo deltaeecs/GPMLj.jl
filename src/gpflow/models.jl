@@ -2,7 +2,7 @@ __precompile__()
 module models
 
 using ..gpflow
-
+import ..gpflow: compile!
 export 
 GPR,
 compile!
@@ -21,7 +21,7 @@ mutable struct GPR <: GPModel
 end
 
 function GPR(X, Y, kern::Kernel; mean_function::Union{MeanFunction,Nothing}=nothing, name::Union{String,Nothing}=nothing)
-    GPR(X, Y, kern, mean_function, name, nothing)
+    GPR(X, Y, kern, mean_function, name, nothing, nothing)
 end
 
 function compile!(o::Union{GPR,Nothing})

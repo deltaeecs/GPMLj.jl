@@ -2,7 +2,7 @@ __precompile__()
 module kernels
 
 using ..gpflow
-
+import ..gpflow: compile!
 export 
 Matern52,
 compile!

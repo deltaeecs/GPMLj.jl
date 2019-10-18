@@ -2,7 +2,7 @@ __precompile__()
 module likelihoods
 
 using ..gpflow
-
+import ..gpflow: compile!
 export 
 Gaussian,
 compile!
