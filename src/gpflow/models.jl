@@ -27,8 +27,7 @@ end
 function compile!(o::Union{GPR,Nothing})
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
-    mean_function_ = nothing #compile!(o.mean_function)
-    # likelihood = compile!(o.likelihood)
+    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
     o.o = py_gpflow.models.GPR(o.X, o.Y, kern_, mean_function_, o.name)
     o.likelihood = likelihoods.Gaussian()
     o.likelihood.o = o.o.likelihood
