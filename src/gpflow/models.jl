@@ -2,13 +2,21 @@ __precompile__()
 module models
 
 using ..gpflow
-import ..gpflow: compile!
+import ..gpflow: compile!, predict_f, predict_f_samples
 export 
 GPR,
-compile!
+compile!,
+predict_f,
+predict_f_samples
 
 abstract type GPModel <: Model end
 
+function predict_f(m::GPModel, Xnew)
+    return m.o.predict_f(Xnew)
+end
+function predict_f_samples(m::GPModel, Xnew, num_samples)
+    return m.o.predict_f_samples(Xnew, num_samples)
+end
 
 mutable struct GPR <: GPModel
     X
@@ -21,7 +29,9 @@ mutable struct GPR <: GPModel
 end
 
 function GPR(X, Y, kern::Kernel; mean_function::Union{MeanFunction,Nothing}=nothing, name::Union{String,Nothing}=nothing)
-    GPR(X, Y, kern, mean_function, name, nothing, nothing)
+    out = GPR(X, Y, kern, mean_function, name, nothing, nothing)
+    compile!(out)
+    out
 end
 
 function compile!(o::Union{GPR,Nothing})
