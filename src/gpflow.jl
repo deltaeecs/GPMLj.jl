@@ -19,12 +19,14 @@ ParameterPrior,
 Optimizer,
 PyObject
 
-abstract type Model end
-abstract type Kernel end
-abstract type Likelihood end
-abstract type MeanFunction end
-abstract type ParameterPrior end
-abstract type Optimizer end
+abstract type GPFlowObject end
+
+abstract type Model <: GPFlowObject end
+abstract type Kernel <: GPFlowObject end
+abstract type Likelihood <: GPFlowObject end
+abstract type MeanFunction <: GPFlowObject end
+abstract type ParameterPrior <: GPFlowObject end
+abstract type Optimizer <: GPFlowObject end
 
 py_gpflow=nothing;
 function __init__()

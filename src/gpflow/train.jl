@@ -16,7 +16,6 @@ function ScipyOptimizer()
     out
 end
 
-# TODO: add minimize
 function minimize!(opt::Union{ScipyOptimizer,Nothing}, m::Model)
    opt.o.minimize(m.o)
 end
