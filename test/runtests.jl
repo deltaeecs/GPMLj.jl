@@ -1,11 +1,5 @@
 using GPJ, Test
 
-function test()
-    @testset "Test Sanity Check" begin
-       @test 1 ≈ 1 
-    end
-end
+Random.seed!(123456)
 
-
-test()
-
+include("gpflow/gpflow.jl")
