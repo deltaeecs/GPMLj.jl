@@ -1,4 +1,4 @@
-using GPJ, Test
+using GPJ, Test, Random
 
 Random.seed!(123456)
 

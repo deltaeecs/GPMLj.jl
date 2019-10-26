@@ -1,6 +1,3 @@
-using Test
-using GPJ
-using Random
+using GPJ, Test, Random
 
-Ramdom.seed!(123)
-
+Random.seed!(123)

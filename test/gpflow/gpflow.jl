@@ -1,3 +1,5 @@
+using GPJ, Test, Random
+
 include("kernels.jl")
 include("likelihoods.jl")
 include("mean_functions.jl")
