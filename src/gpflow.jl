@@ -1,7 +1,7 @@
 __precompile__()
 module gpflow
 using GPJ, PyCall
-import ..GPJ: compile!, minimize!, predict_f, predict_f_samples
+import ..GPJ: compile!, minimize!, predict_f, predict_f_samples, GPFlowObject
 export  
 py_gpflow, 
 compile!,
@@ -17,9 +17,8 @@ Likelihood,
 MeanFunction,
 ParameterPrior,
 Optimizer,
-PyObject
-
-abstract type GPFlowObject end
+PyObject,
+GPFlowObject
 
 abstract type Model <: GPFlowObject end
 abstract type Kernel <: GPFlowObject end

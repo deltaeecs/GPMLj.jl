@@ -40,6 +40,7 @@ function GPR(X, Y, kern::Kernel; mean_function::Union{MeanFunction,Nothing}=noth
 end
 
 function compile!(o::Union{GPR,Nothing})
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
@@ -75,6 +76,7 @@ function SGPR(  X, Y, kern::Union{Kernel,Nothing};
 end
 
 function compile!(o::Union{SGPR,Nothing})
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
@@ -105,6 +107,7 @@ function VGP(  X, Y, kern::Union{Kernel,Nothing}, likelihood::Union{Likelihood,N
 end    
 
 function compile!(o::VGP)
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
@@ -164,6 +167,7 @@ function SVGP(  X, Y, kern::Union{Kernel,Nothing}, likelihood::Union{Likelihood,
 end
 
 function compile!(o::SVGP)
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
@@ -210,6 +214,7 @@ function GPMC(  X, Y, kern::Union{Kernel,Nothing}, likelihood::Union{Likelihood,
 end
 
 function compile!(o::GPMC)
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
@@ -255,6 +260,7 @@ function SGPMC( X, Y, kern::Union{Kernel,Nothing}, likelihood::Union{Likelihood,
 end
 
 function compile!(o::SGPMC)
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)

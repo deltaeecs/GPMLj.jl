@@ -25,6 +25,7 @@ function Matern52(input_dim; variance=1.0, lengthscales=1.0, active_dims=nothing
 end
 
 function compile!(o::Union{Matern52,Nothing})
+    if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     o.o = py_gpflow.kernels.Matern52(
                                         o.input_dim; 

@@ -7,7 +7,11 @@ gpflow,
 compile!,
 minimize!,
 predict_f,
-predict_f_samples
+predict_f_samples,
+GPFlowObject
+
+
+abstract type GPFlowObject end
 
 function compile!(o::Any) end
 function minimize!(opt, m) end
