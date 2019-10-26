@@ -80,7 +80,8 @@ function compile!(o::Union{SGPR,Nothing})
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
-    o.o = py_gpflow.models.SGPR(    o.X, o.Y; kern=kern_,
+    o.o = py_gpflow.models.SGPR(    o.X, o.Y; 
+                                    kern=kern_,
                                     mean_function=mean_function_,
                                     name=o.name
                                     )
@@ -101,7 +102,7 @@ function VGP(  X, Y, kern::Union{Kernel,Nothing}, likelihood::Union{Likelihood,N
                 mean_function::Union{MeanFunction,Nothing}=nothing,
                 num_latent::Union{Int,Nothing}=nothing
                 )
-    out = py_gpflow.models.VGP(X, Y, kern, likelihood, mean_function, num_latent)
+    out = VGP(X, Y, kern, likelihood, mean_function, num_latent, nothing)
     compile!(out)
     out
 end    

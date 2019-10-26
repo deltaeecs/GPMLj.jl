@@ -8,18 +8,18 @@ Gaussian,
 compile!
 
 mutable struct Gaussian<:Likelihood
-    var::Real
+    variance::Real
     o::Union{PyObject,Nothing}
 end
 
-function Gaussian(;var::Real=1.0)
-    Gaussian(var, nothing)
+function Gaussian(;variance::Real=1.0)
+    Gaussian(variance, nothing)
 end
 
 function compile!(o::Union{Gaussian,Nothing})
     if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
-    o.o = py_gpflow.likelihoods.Gaussian(var=o.var)
+    o.o = py_gpflow.likelihoods.Gaussian(;variance=o.variance)
 end
 
 end
