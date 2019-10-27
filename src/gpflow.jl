@@ -49,6 +49,7 @@ using .likelihoods: compile!
 include("gpflow/train.jl")
 using .train: compile!, minimize!
 include("gpflow/mean_functions.jl")
+using .mean_functions: compile!
 include("gpflow/parameter_priors.jl")
 
 end

@@ -80,8 +80,7 @@ function compile!(o::Union{SGPR,Nothing})
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
-    o.o = py_gpflow.models.SGPR(    o.X, o.Y; 
-                                    kern=kern_,
+    o.o = py_gpflow.models.SGPR(    o.X, o.Y, kern=kern_;
                                     mean_function=mean_function_,
                                     name=o.name
                                     )
