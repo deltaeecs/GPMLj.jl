@@ -43,7 +43,7 @@ function compile!(o::Union{GPR,Nothing})
     if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
-    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
+    mean_function_ = compile!(o.mean_function)
     o.o = py_gpflow.models.GPR(o.X, o.Y, kern_, mean_function_, o.name)
     #= TODO: Shoudld we manually initialize likelihood?
     o.likelihood = likelihoods.Gaussian()
@@ -79,7 +79,7 @@ function compile!(o::Union{SGPR,Nothing})
     if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
-    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
+    mean_function_ = compile!(o.mean_function)
     o.o = py_gpflow.models.SGPR(    o.X, o.Y, kern=kern_;
                                     mean_function=mean_function_,
                                     name=o.name
@@ -111,7 +111,7 @@ function compile!(o::VGP)
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
-    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
+    mean_function_ = compile!(o.mean_function)
     o.o = py_gpflow.models.VGP(o.X, o.Y, kern=kern_, likelihood=likelihood_;
                                 mean_function=mean_function_,
                                 num_latent=o.num_latent
@@ -171,7 +171,7 @@ function compile!(o::SVGP)
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
-    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
+    mean_function_ = compile!(o.mean_function)
     o.o = py_gpflow.models.SGVP(o.X, o.Y, kern=kern_, likelihood=likelihood_;
                                 feat=o.feat,
                                 mean_function=mean_function_,
@@ -218,7 +218,7 @@ function compile!(o::GPMC)
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
-    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
+    mean_function_ = compile!(o.mean_function)
     o.o = py_gpflow.models.GPMC(o.X, o.Y, kern=kern_, likelihood=likelihood_;
                                 mean_function=mean_function_,
                                 num_latent=o.num_latent                                
@@ -264,7 +264,7 @@ function compile!(o::SGPMC)
     if o === nothing return nothing end
     kern_ = compile!(o.kern)
     likelihood_ = compile!(o.likelihood)
-    mean_function_ = nothing # TODO: Update this once the mean_functions module is ready. compile!(o.mean_function)
+    mean_function_ = compile!(o.mean_function)
     o.o = py_gpflow.models.SGPMC(o.X, o.Y, kern=kern_, likelihood=likelihood_;
                                 fwat=o.feat,
                                 mean_function=mean_function_,
