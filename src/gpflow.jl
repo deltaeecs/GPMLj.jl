@@ -42,14 +42,19 @@ function predict_f_samples(m::Model, Xnew, num_samples) end
 
 include("gpflow/models.jl")
 using .models: compile!, predict_f, predict_f_samples
+
 include("gpflow/kernels.jl")
 using .kernels: compile!
+
 include("gpflow/likelihoods.jl")
 using .likelihoods: compile!
+
 include("gpflow/train.jl")
 using .train: compile!, minimize!
+
 include("gpflow/mean_functions.jl")
 using .mean_functions: compile!
+
 include("gpflow/parameter_priors.jl")
 
 end

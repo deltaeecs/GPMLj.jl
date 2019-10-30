@@ -28,13 +28,13 @@ function compile!(o::Union{Matern52,Nothing})
     if typeof(o.o)<:PyObject return o.o end
     if o === nothing return nothing end
     o.o = py_gpflow.kernels.Matern52(
-                                        o.input_dim; 
-                                        variance=o.variance, 
-                                        lengthscales=o.lengthscales, 
-                                        active_dims=o.active_dims, 
-                                        ARD=o.ARD, 
-                                        name=o.name
-                                    )
+        o.input_dim; 
+        variance=o.variance, 
+        lengthscales=o.lengthscales, 
+        active_dims=o.active_dims, 
+        ARD=o.ARD, 
+        name=o.name
+        )
 end 
 
 end
