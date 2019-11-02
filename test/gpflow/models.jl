@@ -26,7 +26,7 @@ Random.seed!(123)
     end =#
     
     @testset "VGP" begin
-        kern= gpflow.kernels.Matern52(2)
+        kern = gpflow.kernels.Matern52(2)
         like = gpflow.likelihoods.Gaussian()
         vgp = gpflow.models.VGP(randn(100,2), randn(100,1), kern, like)
         @test typeof(vgp)<:gpflow.models.VGP

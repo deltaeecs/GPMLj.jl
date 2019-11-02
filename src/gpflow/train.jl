@@ -1,28 +1,28 @@
 module train
-using ..gpflow
-import ..gpflow: compile!, minimize!
-export 
-ScipyOptimizer,
-compile!,
-minimize!
+    using ..gpflow
+    import ..gpflow: compile!, minimize!
+    export 
+        ScipyOptimizer,
+        compile!,
+        minimize!
 
-mutable struct ScipyOptimizer<:Optimizer
-    o::Union{PyObject,Nothing}
-end
+    mutable struct ScipyOptimizer<:Optimizer
+        o::Union{PyObject,Nothing}
+    end
 
-function ScipyOptimizer()
-    out = ScipyOptimizer(nothing)
-    compile!(out)
-    out
-end
+    function ScipyOptimizer()
+        out = ScipyOptimizer(nothing)
+        compile!(out)
+        out
+    end
 
-function minimize!(opt::Union{ScipyOptimizer,Nothing}, m::Model)
-   opt.o.minimize(m.o)
-end
+    function minimize!(opt::Union{ScipyOptimizer,Nothing}, m::Model)
+    opt.o.minimize(m.o)
+    end
 
-function compile!(o::Union{ScipyOptimizer,Nothing})
-    if o === nothing return nothing end
-    o.o = py_gpflow.train.ScipyOptimizer()
-end
+    function compile!(o::Union{ScipyOptimizer,Nothing})
+        if o === nothing return nothing end
+        o.o = py_gpflow.train.ScipyOptimizer()
+    end
 
-end
+end # module

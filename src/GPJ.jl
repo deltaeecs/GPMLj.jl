@@ -1,23 +1,23 @@
 module GPJ
 
-using PyCall
+    using PyCall
 
-export
-gpflow,
-compile!,
-minimize!,
-predict_f,
-predict_f_samples,
-GPFlowObject
+    export
+        gpflow,
+        compile!,
+        minimize!,
+        predict_f,
+        predict_f_samples,
+        GPFlowObject
 
 
-abstract type GPFlowObject end
+    abstract type GPFlowObject end
 
-function compile!(o::Any) end
-function minimize!(opt, m) end
-function predict_f(m, Xnew) end
-function predict_f_samples(m, Xnew, num_samples) end
+    function compile!(o::Any) end
+    function minimize!(opt, m) end
+    function predict_f(m, Xnew) end
+    function predict_f_samples(m, Xnew, num_samples) end
 
-include("gpflow.jl")
+    include("gpflow.jl")
 
-end
+end # module
