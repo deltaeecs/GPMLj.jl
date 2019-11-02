@@ -3,3 +3,6 @@
 *.jl.mem
 deps/deps.jl
 *.png
+
+Manifest.toml
+
