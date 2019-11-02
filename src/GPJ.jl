@@ -13,7 +13,7 @@ module GPJ
 
     abstract type GPFlowObject end
 
-    function compile!(o::Any) end
+    function compile!(o) end
     function minimize!(opt, m) end
     function predict_f(m, Xnew) end
     function predict_f_samples(m, Xnew, num_samples) end

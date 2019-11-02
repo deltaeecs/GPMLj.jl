@@ -1,4 +1,3 @@
-__precompile__()
 module gpflow
     using GPJ, PyCall
     import ..GPJ: compile!, minimize!, predict_f, predict_f_samples, GPFlowObject

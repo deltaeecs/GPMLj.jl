@@ -1,4 +1,3 @@
-__precompile__()
 module mean_functions
 
     using ..gpflow
