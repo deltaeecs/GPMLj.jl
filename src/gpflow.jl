@@ -26,7 +26,7 @@ module gpflow
     abstract type ParameterPrior <: GPFlowObject end
     abstract type Optimizer <: GPFlowObject end
 
-    py_gpflow= PyNull();
+    py_gpflow= nothing;
     function __init__()
         global py_gpflow = pyimport("gpflow")
     end
@@ -40,19 +40,16 @@ module gpflow
 
 
     include("gpflow/models.jl")
-    using .models: compile!, predict_f, predict_f_samples
+    using .models: predict_f, predict_f_samples
 
     include("gpflow/kernels.jl")
-    using .kernels: compile!
 
     include("gpflow/likelihoods.jl")
-    using .likelihoods: compile!
 
     include("gpflow/train.jl")
-    using .train: compile!, minimize!
+    using .train: minimize!
 
     include("gpflow/mean_functions.jl")
-    using .mean_functions: compile!
 
     include("gpflow/parameter_priors.jl")
 

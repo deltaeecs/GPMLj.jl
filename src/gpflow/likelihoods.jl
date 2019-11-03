@@ -16,8 +16,9 @@ module likelihoods
     end
 
     function compile!(o::Union{Gaussian,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.likelihoods.Gaussian(;variance=o.variance)
     end
 

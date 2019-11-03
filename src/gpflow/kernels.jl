@@ -32,8 +32,9 @@ module kernels
     end
 
     function compile!(o::Union{Matern52,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.Matern52(
             o.input_dim; 
             variance=o.variance, 
@@ -80,8 +81,9 @@ module kernels
     end
 
     function compile!(o::Union{ArcCosine,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.ArcCosine(
             order=o.order,
             variance=o.variance,
@@ -126,8 +128,9 @@ module kernels
     end
 
     function compile!(o::Union{Periodic,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.Periodic(
             o.input_dim;
             period=o.period,
@@ -168,8 +171,9 @@ module kernels
     end
 
     function compile!(o::Union{Coregion,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.Coregion(
             o.input_dim,
             o.output_dim,

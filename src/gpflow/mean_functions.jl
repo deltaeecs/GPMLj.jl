@@ -10,12 +10,12 @@ module mean_functions
         Linear,
         MeanFunction
 
-    function (o<:MeanFunction)(X)
-        if  !(typeof(o.o)<:PyObject)
-            compile!(o)
-        end
-        return o.o(X)
-    end
+    # function (o::MeanFunction)(X)
+    #     if  !(typeof(o.o)<:PyObject)
+    #         compile!(o)
+    #     end
+    #     return o.o(X)
+    # end
 
     mutable struct Additive{T1,T2} <: MeanFunction
         first_part::T1
@@ -30,8 +30,9 @@ module mean_functions
     end
 
     function compile!(o::Union{Additive,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Additive(o.first_part, o.second_part)
         return o.o
     end
@@ -48,15 +49,16 @@ module mean_functions
     end
 
     function compile!(o::Union{Constant,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Constant(;c=o.c)
         return o.o
     end
 
-    abstract type Linear <: MeanFunction end
+    abstract type Linear_ <: MeanFunction end
 
-    mutable struct Identity{T1} <: Linear
+    mutable struct Identity{T1} <: Linear_
         input_dim::T1
         o::Union{PyObject,Nothing}
     end
@@ -68,8 +70,9 @@ module mean_functions
     end
 
     function compile!(o::Union{Identity,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Identity(;input_dim=o.input_dim)
         return o.o
     end
@@ -87,28 +90,31 @@ module mean_functions
     end
 
     function compile!(o::Union{Linear,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Linear(;A=o.A, B=o.B)
         return o.o
     end
 
-    mutable struct MeanFunction{T1} <: GPFlowObject
-        name::T1
-        o::Union{PyObject,Nothing}
-    end
 
-    function MeanFunction(;name=nothing)
-        out = MeanFunction(name, nothing)
-        compile!(out)
-        out
-    end
+    # mutable struct MeanFunction{T1} <: GPFlowObject
+    #     name::T1
+    #     o::Union{PyObject,Nothing}
+    # end
 
-    function compile!(o::Union{MeanFunction,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
-        if o === nothing return nothing end
-        o.o = py_gpflow.mean_functions.MeanFunction(;name=o.name)
-        return o.o
-    end
+    # function MeanFunction(;name=nothing)
+    #     out = MeanFunction(name, nothing)
+    #     compile!(out)
+    #     return out
+    # end
+
+    # function compile!(o::Union{MeanFunction,Nothing})
+        # if o === nothing return nothing end
+        # if typeof(o.o)<:PyObject return o.o end
+        # @info string("Instantiating ", string(mf))
+    #     o.o = py_gpflow.mean_functions.MeanFunction(;name=o.name)
+    #     return o.o
+    # end
 
 end # module

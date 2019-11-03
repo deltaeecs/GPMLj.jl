@@ -45,8 +45,9 @@ module models
     end
 
     function compile!(o::Union{GPR,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         kern_ = compile!(o.kern)
         mean_function_ = compile!(o.mean_function)
         o.o = py_gpflow.models.GPR(o.X, o.Y, kern_, mean_function_, o.name)
@@ -84,8 +85,9 @@ module models
     end
 
     function compile!(o::Union{SGPR,Nothing})
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         kern_ = compile!(o.kern)
         mean_function_ = compile!(o.mean_function)
         o.o = py_gpflow.models.SGPR(
@@ -120,8 +122,9 @@ module models
     end    
 
     function compile!(o::VGP)
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         kern_ = compile!(o.kern)
         likelihood_ = compile!(o.likelihood)
         mean_function_ = compile!(o.mean_function)
@@ -190,8 +193,9 @@ module models
     end
 
     function compile!(o::SVGP)
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         kern_ = compile!(o.kern)
         likelihood_ = compile!(o.likelihood)
         mean_function_ = compile!(o.mean_function)
@@ -246,8 +250,9 @@ module models
     end
 
     function compile!(o::GPMC)
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         kern_ = compile!(o.kern)
         likelihood_ = compile!(o.likelihood)
         mean_function_ = compile!(o.mean_function)
@@ -301,8 +306,9 @@ module models
     end
 
     function compile!(o::SGPMC)
-        if typeof(o.o)<:PyObject return o.o end
         if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        @info string("Instantiating ", string(mf))
         kern_ = compile!(o.kern)
         likelihood_ = compile!(o.likelihood)
         mean_function_ = compile!(o.mean_function)
