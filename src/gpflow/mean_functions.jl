@@ -32,7 +32,6 @@ module mean_functions
     function instantiate!(o::Union{Additive,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Additive(o.first_part, o.second_part)
         return o.o
     end
@@ -51,7 +50,6 @@ module mean_functions
     function instantiate!(o::Union{Constant,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Constant(;c=o.c)
         return o.o
     end
@@ -72,7 +70,6 @@ module mean_functions
     function instantiate!(o::Union{Identity,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Identity(;input_dim=o.input_dim)
         return o.o
     end
@@ -92,7 +89,6 @@ module mean_functions
     function instantiate!(o::Union{Linear,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.mean_functions.Linear(;A=o.A, B=o.B)
         return o.o
     end
@@ -112,7 +108,7 @@ module mean_functions
     # function instantiate!(o::Union{MeanFunction,Nothing})
         # if o === nothing return nothing end
         # if typeof(o.o)<:PyObject return o.o end
-        # @info string("Instantiating ", string(mf))
+        # @info string("Instantiating ", string(o))
     #     o.o = py_gpflow.mean_functions.MeanFunction(;name=o.name)
     #     return o.o
     # end

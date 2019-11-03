@@ -47,7 +47,6 @@ module models
     function instantiate!(o::Union{GPR,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         kern_ = instantiate!(o.kern)
         mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.GPR(o.X, o.Y, kern_, mean_function_, o.name)
@@ -87,7 +86,6 @@ module models
     function instantiate!(o::Union{SGPR,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         kern_ = instantiate!(o.kern)
         mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.SGPR(
@@ -124,7 +122,6 @@ module models
     function instantiate!(o::VGP)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         kern_ = instantiate!(o.kern)
         likelihood_ = instantiate!(o.likelihood)
         mean_function_ = instantiate!(o.mean_function)
@@ -195,7 +192,6 @@ module models
     function instantiate!(o::SVGP)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         kern_ = instantiate!(o.kern)
         likelihood_ = instantiate!(o.likelihood)
         mean_function_ = instantiate!(o.mean_function)
@@ -252,7 +248,6 @@ module models
     function instantiate!(o::GPMC)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         kern_ = instantiate!(o.kern)
         likelihood_ = instantiate!(o.likelihood)
         mean_function_ = instantiate!(o.mean_function)
@@ -308,7 +303,6 @@ module models
     function instantiate!(o::SGPMC)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         kern_ = instantiate!(o.kern)
         likelihood_ = instantiate!(o.likelihood)
         mean_function_ = instantiate!(o.mean_function)

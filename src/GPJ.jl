@@ -14,6 +14,7 @@ module GPJ
     abstract type GPFlowObject end
 
     function instantiate!(o) end
+    function instantiate!(o::Nothing) return nothing end
     function minimize!(opt, m) end
     function predict_f(m, Xnew) end
     function predict_f_samples(m, Xnew, num_samples) end

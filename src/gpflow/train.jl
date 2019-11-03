@@ -23,7 +23,6 @@ module train
     function instantiate!(o::Union{ScipyOptimizer,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.train.ScipyOptimizer()
     end
 

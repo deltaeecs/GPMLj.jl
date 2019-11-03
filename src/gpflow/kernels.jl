@@ -34,7 +34,6 @@ module kernels
     function instantiate!(o::Union{Matern52,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.Matern52(
             o.input_dim; 
             variance=o.variance, 
@@ -83,7 +82,6 @@ module kernels
     function instantiate!(o::Union{ArcCosine,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.ArcCosine(
             order=o.order,
             variance=o.variance,
@@ -130,7 +128,6 @@ module kernels
     function instantiate!(o::Union{Periodic,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.Periodic(
             o.input_dim;
             period=o.period,
@@ -173,7 +170,6 @@ module kernels
     function instantiate!(o::Union{Coregion,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
-        @info string("Instantiating ", string(mf))
         o.o = py_gpflow.kernels.Coregion(
             o.input_dim,
             o.output_dim,
