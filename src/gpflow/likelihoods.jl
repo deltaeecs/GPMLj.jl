@@ -6,12 +6,12 @@ module likelihoods
         Gaussian,
         compile!
 
-    mutable struct Gaussian<:Likelihood
-        variance::Real
+    mutable struct Gaussian{T}<:Likelihood
+        variance::T
         o::Union{PyObject,Nothing}
     end
 
-    function Gaussian(;variance::Real=1.0)
+    function Gaussian(;variance::T=1.0) where T <: Real
         Gaussian(variance, nothing)
     end
 
