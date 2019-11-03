@@ -12,7 +12,9 @@ module likelihoods
     end
 
     function Gaussian(;variance::T=1.0) where T <: Real
-        Gaussian(variance, nothing)
+        out = Gaussian(variance, nothing)
+        compile!(out)
+        return out
     end
 
     function compile!(o::Union{Gaussian,Nothing})
