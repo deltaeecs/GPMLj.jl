@@ -1,10 +1,10 @@
 module kernels
 
     using ..gpflow
-    import ..gpflow: compile!
+    import ..gpflow: instantiate!
     export 
         Matern52,
-        compile!
+        instantiate!
 
     abstract type Stationary <: Kernel end
 
@@ -27,11 +27,11 @@ module kernels
         name=nothing
     )
         out = Matern52(input_dim, variance, lengthscales, active_dims, ARD, name, nothing)
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{Matern52,Nothing})
+    function instantiate!(o::Union{Matern52,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -76,11 +76,11 @@ module kernels
             name,
             nothing
         )
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{ArcCosine,Nothing})
+    function instantiate!(o::Union{ArcCosine,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -123,11 +123,11 @@ module kernels
             name,
             nothing
         )
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{Periodic,Nothing})
+    function instantiate!(o::Union{Periodic,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -166,11 +166,11 @@ module kernels
             name,
             nothing
         )
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{Coregion,Nothing})
+    function instantiate!(o::Union{Coregion,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))

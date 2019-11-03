@@ -1,10 +1,10 @@
 module likelihoods
 
     using ..gpflow
-    import ..gpflow: compile!
+    import ..gpflow: instantiate!
     export 
         Gaussian,
-        compile!
+        instantiate!
 
     mutable struct Gaussian{T}<:Likelihood
         variance::T
@@ -13,11 +13,11 @@ module likelihoods
 
     function Gaussian(;variance::T=1.0) where T <: Real
         out = Gaussian(variance, nothing)
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{Gaussian,Nothing})
+    function instantiate!(o::Union{Gaussian,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))

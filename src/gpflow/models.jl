@@ -1,10 +1,10 @@
 module models
 
     using ..gpflow
-    import ..gpflow: compile!, predict_f, predict_f_samples
+    import ..gpflow: instantiate!, predict_f, predict_f_samples
     export 
         GPR,
-        compile!,
+        instantiate!,
         predict_f,
         predict_f_samples,
         SGPR,
@@ -40,16 +40,16 @@ module models
         name::Union{String,Nothing}=nothing
     )
         out = GPR(X, Y, kern, mean_function, name, nothing, nothing)
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{GPR,Nothing})
+    function instantiate!(o::Union{GPR,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
-        kern_ = compile!(o.kern)
-        mean_function_ = compile!(o.mean_function)
+        kern_ = instantiate!(o.kern)
+        mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.GPR(o.X, o.Y, kern_, mean_function_, o.name)
         #= TODO: Shoudld we manually initialize likelihood?
         o.likelihood = likelihoods.Gaussian()
@@ -80,16 +80,16 @@ module models
         name::Union{String,Nothing}=nothing
     )
         out = SGPR(X, Y, kern, feat, mean_function, Z, name, nothing)
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::Union{SGPR,Nothing})
+    function instantiate!(o::Union{SGPR,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
-        kern_ = compile!(o.kern)
-        mean_function_ = compile!(o.mean_function)
+        kern_ = instantiate!(o.kern)
+        mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.SGPR(
             o.X, o.Y, kern=kern_;
             mean_function=mean_function_,
@@ -117,17 +117,17 @@ module models
         num_latent::Union{Int,Nothing}=nothing
     )
         out = VGP(X, Y, kern, likelihood, mean_function, num_latent, nothing)
-        compile!(out)
+        instantiate!(out)
         return out
     end    
 
-    function compile!(o::VGP)
+    function instantiate!(o::VGP)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
-        kern_ = compile!(o.kern)
-        likelihood_ = compile!(o.likelihood)
-        mean_function_ = compile!(o.mean_function)
+        kern_ = instantiate!(o.kern)
+        likelihood_ = instantiate!(o.likelihood)
+        mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.VGP(
             o.X, o.Y, kern=kern_, likelihood=likelihood_;
             mean_function=mean_function_,
@@ -188,17 +188,17 @@ module models
             q_sqrt,
             nothing
         )
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::SVGP)
+    function instantiate!(o::SVGP)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
-        kern_ = compile!(o.kern)
-        likelihood_ = compile!(o.likelihood)
-        mean_function_ = compile!(o.mean_function)
+        kern_ = instantiate!(o.kern)
+        likelihood_ = instantiate!(o.likelihood)
+        mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.SGVP(
             o.X, 
             o.Y, 
@@ -245,17 +245,17 @@ module models
             num_latent,
             nothing
         )
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::GPMC)
+    function instantiate!(o::GPMC)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
-        kern_ = compile!(o.kern)
-        likelihood_ = compile!(o.likelihood)
-        mean_function_ = compile!(o.mean_function)
+        kern_ = instantiate!(o.kern)
+        likelihood_ = instantiate!(o.likelihood)
+        mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.GPMC(
             o.X, 
             o.Y, 
@@ -301,17 +301,17 @@ module models
             Z,
             nothing
         )
-        compile!(out)
+        instantiate!(out)
         return out
     end
 
-    function compile!(o::SGPMC)
+    function instantiate!(o::SGPMC)
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
-        kern_ = compile!(o.kern)
-        likelihood_ = compile!(o.likelihood)
-        mean_function_ = compile!(o.mean_function)
+        kern_ = instantiate!(o.kern)
+        likelihood_ = instantiate!(o.likelihood)
+        mean_function_ = instantiate!(o.mean_function)
         o.o = py_gpflow.models.SGPMC(
             o.X, 
             o.Y, 

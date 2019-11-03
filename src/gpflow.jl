@@ -1,9 +1,9 @@
 module gpflow
     using GPJ, PyCall
-    import ..GPJ: compile!, minimize!, predict_f, predict_f_samples, GPFlowObject
+    import ..GPJ: instantiate!, minimize!, predict_f, predict_f_samples, GPFlowObject
     export  
         py_gpflow, 
-        compile!,
+        instantiate!,
         minimize!,
         predict_f,
         predict_f_samples,
@@ -32,7 +32,7 @@ module gpflow
     end
 
 
-    function compile!(o::Union{Model,Kernel,Likelihood,MeanFunction,ParameterPrior}) end
+    function instantiate!(o::Union{Model,Kernel,Likelihood,MeanFunction,ParameterPrior}) end
     function minimize!(opt::Optimizer, m::Model) end
 
     function predict_f(m::Model, Xnew) end

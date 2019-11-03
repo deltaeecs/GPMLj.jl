@@ -1,9 +1,9 @@
 module train
     using ..gpflow
-    import ..gpflow: compile!, minimize!
+    import ..gpflow: instantiate!, minimize!
     export 
         ScipyOptimizer,
-        compile!,
+        instantiate!,
         minimize!
 
     mutable struct ScipyOptimizer<:Optimizer
@@ -12,7 +12,7 @@ module train
 
     function ScipyOptimizer()
         out = ScipyOptimizer(nothing)
-        compile!(out)
+        instantiate!(out)
         out
     end
 
@@ -20,7 +20,7 @@ module train
     opt.o.minimize(m.o)
     end
 
-    function compile!(o::Union{ScipyOptimizer,Nothing})
+    function instantiate!(o::Union{ScipyOptimizer,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))

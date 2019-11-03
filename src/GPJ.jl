@@ -4,7 +4,7 @@ module GPJ
 
     export
         gpflow,
-        compile!,
+        instantiate!,
         minimize!,
         predict_f,
         predict_f_samples,
@@ -13,7 +13,7 @@ module GPJ
 
     abstract type GPFlowObject end
 
-    function compile!(o) end
+    function instantiate!(o) end
     function minimize!(opt, m) end
     function predict_f(m, Xnew) end
     function predict_f_samples(m, Xnew, num_samples) end

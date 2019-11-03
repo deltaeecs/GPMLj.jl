@@ -1,9 +1,9 @@
 module mean_functions
 
     using ..gpflow
-    import ..gpflow: compile!, predict_f, predict_f_samples
+    import ..gpflow: instantiate!, predict_f, predict_f_samples
     export
-        compile!,
+        instantiate!,
         Additive,
         Constant,
         Identity,
@@ -12,7 +12,7 @@ module mean_functions
 
     # function (o::MeanFunction)(X)
     #     if  !(typeof(o.o)<:PyObject)
-    #         compile!(o)
+    #         instantiate!(o)
     #     end
     #     return o.o(X)
     # end
@@ -25,11 +25,11 @@ module mean_functions
 
     function Additive(first_part, second_part)
         out = Additive(first_part, second_part, nothing)
-        compile!(out)
+        instantiate!(out)
         out
     end
 
-    function compile!(o::Union{Additive,Nothing})
+    function instantiate!(o::Union{Additive,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -44,11 +44,11 @@ module mean_functions
 
     function Constant(;c=nothing)
         out = Additive(c, nothing)
-        compile!(out)
+        instantiate!(out)
         out
     end
 
-    function compile!(o::Union{Constant,Nothing})
+    function instantiate!(o::Union{Constant,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -65,11 +65,11 @@ module mean_functions
 
     function Identity(;input_dim=nothing)
         out = Identity(input_dim, nothing)
-        compile!(out)
+        instantiate!(out)
         out
     end
 
-    function compile!(o::Union{Identity,Nothing})
+    function instantiate!(o::Union{Identity,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -85,11 +85,11 @@ module mean_functions
 
     function Linear(;A=nothing, B=nothing)
         out = Linear(A, B, nothing)
-        compile!(out)
+        instantiate!(out)
         out
     end
 
-    function compile!(o::Union{Linear,Nothing})
+    function instantiate!(o::Union{Linear,Nothing})
         if o === nothing return nothing end
         if typeof(o.o)<:PyObject return o.o end
         @info string("Instantiating ", string(mf))
@@ -105,11 +105,11 @@ module mean_functions
 
     # function MeanFunction(;name=nothing)
     #     out = MeanFunction(name, nothing)
-    #     compile!(out)
+    #     instantiate!(out)
     #     return out
     # end
 
-    # function compile!(o::Union{MeanFunction,Nothing})
+    # function instantiate!(o::Union{MeanFunction,Nothing})
         # if o === nothing return nothing end
         # if typeof(o.o)<:PyObject return o.o end
         # @info string("Instantiating ", string(mf))
