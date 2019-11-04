@@ -61,9 +61,9 @@ module mean_functions
         return o.o(X)
     end
 
-    abstract type LinearAbstract <: AbstractMeanFunction end
+    abstract type AbstractLinear <: AbstractMeanFunction end
 
-    mutable struct Identity{T1} <: LinearAbstract
+    mutable struct Identity{T1} <: AbstractLinear
         input_dim::T1
         o::Union{PyObject,Nothing}
     end
@@ -88,7 +88,7 @@ module mean_functions
         return o.o(X)
     end
     
-    mutable struct Linear{T1,T2} <: LinearAbstract
+    mutable struct Linear{T1,T2} <: AbstractLinear
         A::T1
         B::T2
         o::Union{PyObject,Nothing}
