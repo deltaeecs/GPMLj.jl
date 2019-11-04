@@ -10,14 +10,7 @@ module mean_functions
         Linear,
         MeanFunction
 
-    # function (o::MeanFunction)(X)
-    #     if  !(typeof(o.o)<:PyObject)
-    #         instantiate!(o)
-    #     end
-    #     return o.o(X)
-    # end
-
-    mutable struct Additive{T1,T2} <: MeanFunction
+    mutable struct Additive{T1,T2} <: MeanFunctionAbstract
         first_part::T1
         second_part::T2
         o::Union{PyObject,Nothing}
@@ -36,7 +29,14 @@ module mean_functions
         return o.o
     end
 
-    mutable struct Constant{T1} <: MeanFunction
+    function (o::Additive)(X)
+        if  !(typeof(o.o)<:PyObject)
+            instantiate!(o)
+        end
+        return o.o(X)
+    end
+
+    mutable struct Constant{T1} <: MeanFunctionAbstract
         c::T1
         o::Union{PyObject,Nothing}
     end
@@ -54,9 +54,16 @@ module mean_functions
         return o.o
     end
 
-    abstract type Linear_ <: MeanFunction end
+    function (o::Constant)(X)
+        if  !(typeof(o.o)<:PyObject)
+            instantiate!(o)
+        end
+        return o.o(X)
+    end
 
-    mutable struct Identity{T1} <: Linear_
+    abstract type LinearAbstract <: MeanFunctionAbstract end
+
+    mutable struct Identity{T1} <: LinearAbstract
         input_dim::T1
         o::Union{PyObject,Nothing}
     end
@@ -74,7 +81,14 @@ module mean_functions
         return o.o
     end
 
-    mutable struct Linear{T1,T2} <: MeanFunction
+    function (o::Identity)(X)
+        if  !(typeof(o.o)<:PyObject)
+            instantiate!(o)
+        end
+        return o.o(X)
+    end
+    
+    mutable struct Linear{T1,T2} <: LinearAbstract
         A::T1
         B::T2
         o::Union{PyObject,Nothing}
@@ -93,24 +107,36 @@ module mean_functions
         return o.o
     end
 
+    function (o::Linear)(X)
+        if  !(typeof(o.o)<:PyObject)
+            instantiate!(o)
+        end
+        return o.o(X)
+    end
 
-    # mutable struct MeanFunction{T1} <: GPFlowObject
-    #     name::T1
-    #     o::Union{PyObject,Nothing}
-    # end
+    mutable struct MeanFunction{T1} <: MeanFunctionAbstract
+        name::T1
+        o::Union{PyObject,Nothing}
+    end
 
-    # function MeanFunction(;name=nothing)
-    #     out = MeanFunction(name, nothing)
-    #     instantiate!(out)
-    #     return out
-    # end
+    function MeanFunction(;name=nothing)
+        out = MeanFunction(name, nothing)
+        instantiate!(out)
+        return out
+    end
 
-    # function instantiate!(o::Union{MeanFunction,Nothing})
-        # if o === nothing return nothing end
-        # if typeof(o.o)<:PyObject return o.o end
-        # @info string("Instantiating ", string(o))
-    #     o.o = py_gpflow.mean_functions.MeanFunction(;name=o.name)
-    #     return o.o
-    # end
+    function instantiate!(o::Union{MeanFunction,Nothing})
+        if o === nothing return nothing end
+        if typeof(o.o)<:PyObject return o.o end
+        o.o = py_gpflow.mean_functions.MeanFunction(;name=o.name)
+        return o.o
+    end
+
+    function (o::MeanFunction)(X)
+        if  !(typeof(o.o)<:PyObject)
+            instantiate!(o)
+        end
+        return o.o(X)
+    end
 
 end # module
