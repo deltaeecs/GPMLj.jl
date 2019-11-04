@@ -26,7 +26,7 @@ module models
         X::T1
         Y::T2
         kern::Union{Kernel,Nothing}
-        mean_function::Union{MeanFunctionAbstract,Nothing}
+        mean_function::Union{AbstractMeanFunction,Nothing}
         name::Union{String,Nothing}
         likelihood::Union{Likelihood,Nothing}
         o::Union{PyObject,Nothing}
@@ -36,7 +36,7 @@ module models
         X, 
         Y, 
         kern::Kernel; 
-        mean_function::Union{MeanFunctionAbstract,Nothing}=nothing, 
+        mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         name::Union{String,Nothing}=nothing
     )
         out = GPR(X, Y, kern, mean_function, name, nothing, nothing)
@@ -63,7 +63,7 @@ module models
         Y::T2
         kern::Union{Kernel,Nothing}
         feat
-        mean_function::Union{MeanFunctionAbstract,Nothing}
+        mean_function::Union{AbstractMeanFunction,Nothing}
         Z::T3
         name::Union{String,Nothing}
         o::Union{PyObject,Nothing}
@@ -74,7 +74,7 @@ module models
         Y, 
         kern::Union{Kernel,Nothing};        
         feat=nothing,
-        mean_function::Union{MeanFunctionAbstract,Nothing}=nothing,
+        mean_function::Union{AbstractMeanFunction,Nothing}=nothing,
         Z=nothing,
         name::Union{String,Nothing}=nothing
     )
@@ -101,7 +101,7 @@ module models
         Y::T2
         kern::Union{Kernel,Nothing}
         likelihood::Union{Likelihood,Nothing}
-        mean_function::Union{MeanFunctionAbstract,Nothing}
+        mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
         o::Union{PyObject,Nothing}
     end
@@ -111,7 +111,7 @@ module models
         Y, 
         kern::Union{Kernel,Nothing}, 
         likelihood::Union{Likelihood,Nothing};
-        mean_function::Union{MeanFunctionAbstract,Nothing}=nothing,
+        mean_function::Union{AbstractMeanFunction,Nothing}=nothing,
         num_latent::Union{Int,Nothing}=nothing
     )
         out = VGP(X, Y, kern, likelihood, mean_function, num_latent, nothing)
@@ -139,7 +139,7 @@ module models
         kern::Union{Kernel,Nothing}
         likelihood::Union{Likelihood,Nothing}
         feat::T3
-        mean_function::Union{MeanFunctionAbstract,Nothing}
+        mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
         q_diag::Bool
         whiten::Bool
@@ -157,7 +157,7 @@ module models
         kern::Union{Kernel,Nothing}, 
         likelihood::Union{Likelihood,Nothing};
         feat=nothing, 
-        mean_function::Union{MeanFunctionAbstract,Nothing}=nothing, 
+        mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         num_latent::Union{Int,Nothing}=nothing, 
         q_diag::Bool=false,
         whiten::Bool=true, 
@@ -219,7 +219,7 @@ module models
         Y::T2
         kern::Union{Kernel,Nothing}
         likelihood::Union{Likelihood,Nothing}
-        mean_function::Union{MeanFunctionAbstract,Nothing}
+        mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
         o::Union{PyObject,Nothing}
     end
@@ -229,7 +229,7 @@ module models
         Y, 
         kern::Union{Kernel,Nothing}, 
         likelihood::Union{Likelihood,Nothing};
-        mean_function::Union{MeanFunctionAbstract,Nothing}=nothing, 
+        mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         num_latent::Union{Int,Nothing}=nothing,
     )
         out = GPMC( 
@@ -269,7 +269,7 @@ module models
         kern::Union{Kernel,Nothing}
         likelihood::Union{Likelihood,Nothing}
         feat::T3
-        mean_function::Union{MeanFunctionAbstract,Nothing}
+        mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
         Z::T4
         o::Union{PyObject,Nothing}
@@ -281,7 +281,7 @@ module models
         kern::Union{Kernel,Nothing}, 
         likelihood::Union{Likelihood,Nothing};
         feat=nothing,
-        mean_function::Union{MeanFunctionAbstract,Nothing}=nothing, 
+        mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         num_latent::Union{Int,Nothing}=nothing,
         Z=nothing
         )

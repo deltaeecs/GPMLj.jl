@@ -10,7 +10,7 @@ module mean_functions
         Linear,
         MeanFunction
 
-    mutable struct Additive{T1,T2} <: MeanFunctionAbstract
+    mutable struct Additive{T1,T2} <: AbstractMeanFunction
         first_part::T1
         second_part::T2
         o::Union{PyObject,Nothing}
@@ -36,7 +36,7 @@ module mean_functions
         return o.o(X)
     end
 
-    mutable struct Constant{T1} <: MeanFunctionAbstract
+    mutable struct Constant{T1} <: AbstractMeanFunction
         c::T1
         o::Union{PyObject,Nothing}
     end
@@ -61,7 +61,7 @@ module mean_functions
         return o.o(X)
     end
 
-    abstract type LinearAbstract <: MeanFunctionAbstract end
+    abstract type LinearAbstract <: AbstractMeanFunction end
 
     mutable struct Identity{T1} <: LinearAbstract
         input_dim::T1
@@ -114,7 +114,7 @@ module mean_functions
         return o.o(X)
     end
 
-    mutable struct MeanFunction{T1} <: MeanFunctionAbstract
+    mutable struct MeanFunction{T1} <: AbstractMeanFunction
         name::T1
         o::Union{PyObject,Nothing}
     end
