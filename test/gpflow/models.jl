@@ -14,7 +14,7 @@ Random.seed!(123)
 
     end
 
-    # TODO
+    # FIXME
     #= @testset "SGPR" begin
         kern= gpflow.kernels.Matern52(2)
         sgpr = gpflow.models.SGPR(randn(100,2), randn(100,1), kern;)
