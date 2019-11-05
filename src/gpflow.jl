@@ -12,7 +12,7 @@ module gpflow
         likelihoods,
         Model,
         Kernel,
-        Likelihood,
+        AbstractLikelihood,
         AbstractMeanFunction,
         ParameterPrior,
         Optimizer,
@@ -21,7 +21,7 @@ module gpflow
 
     abstract type Model <: GPFlowObject end
     abstract type Kernel <: GPFlowObject end
-    abstract type Likelihood <: GPFlowObject end
+    abstract type AbstractLikelihood <: GPFlowObject end
     abstract type AbstractMeanFunction <: GPFlowObject end
     abstract type ParameterPrior <: GPFlowObject end
     abstract type Optimizer <: GPFlowObject end
@@ -32,7 +32,7 @@ module gpflow
     end
 
 
-    function instantiate!(o::Union{Model,Kernel,Likelihood,AbstractMeanFunction,ParameterPrior}) end
+    function instantiate!(o::Union{Model,Kernel,AbstractLikelihood,AbstractMeanFunction,ParameterPrior}) end
     function minimize!(opt::Optimizer, m::Model) end
 
     function predict_f(m::Model, Xnew) end

@@ -28,7 +28,7 @@ module models
         kern::Union{Kernel,Nothing}
         mean_function::Union{AbstractMeanFunction,Nothing}
         name::Union{String,Nothing}
-        likelihood::Union{Likelihood,Nothing}
+        likelihood::Union{AbstractLikelihood,Nothing}
         o::Union{PyObject,Nothing}
     end
 
@@ -100,7 +100,7 @@ module models
         X::T1
         Y::T2
         kern::Union{Kernel,Nothing}
-        likelihood::Union{Likelihood,Nothing}
+        likelihood::Union{AbstractLikelihood,Nothing}
         mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
         o::Union{PyObject,Nothing}
@@ -110,7 +110,7 @@ module models
         X, 
         Y, 
         kern::Union{Kernel,Nothing}, 
-        likelihood::Union{Likelihood,Nothing};
+        likelihood::Union{AbstractLikelihood,Nothing};
         mean_function::Union{AbstractMeanFunction,Nothing}=nothing,
         num_latent::Union{Int,Nothing}=nothing
     )
@@ -137,7 +137,7 @@ module models
         X::T1
         Y::T2
         kern::Union{Kernel,Nothing}
-        likelihood::Union{Likelihood,Nothing}
+        likelihood::Union{AbstractLikelihood,Nothing}
         feat::T3
         mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
@@ -155,7 +155,7 @@ module models
         X, 
         Y, 
         kern::Union{Kernel,Nothing}, 
-        likelihood::Union{Likelihood,Nothing};
+        likelihood::Union{AbstractLikelihood,Nothing};
         feat=nothing, 
         mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         num_latent::Union{Int,Nothing}=nothing, 
@@ -218,7 +218,7 @@ module models
         X::T1
         Y::T2
         kern::Union{Kernel,Nothing}
-        likelihood::Union{Likelihood,Nothing}
+        likelihood::Union{AbstractLikelihood,Nothing}
         mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
         o::Union{PyObject,Nothing}
@@ -228,7 +228,7 @@ module models
         X, 
         Y, 
         kern::Union{Kernel,Nothing}, 
-        likelihood::Union{Likelihood,Nothing};
+        likelihood::Union{AbstractLikelihood,Nothing};
         mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         num_latent::Union{Int,Nothing}=nothing,
     )
@@ -267,7 +267,7 @@ module models
         X::T1
         Y::T2
         kern::Union{Kernel,Nothing}
-        likelihood::Union{Likelihood,Nothing}
+        likelihood::Union{AbstractLikelihood,Nothing}
         feat::T3
         mean_function::Union{AbstractMeanFunction,Nothing}
         num_latent::Union{Int,Nothing}
@@ -279,7 +279,7 @@ module models
         X, 
         Y, 
         kern::Union{Kernel,Nothing}, 
-        likelihood::Union{Likelihood,Nothing};
+        likelihood::Union{AbstractLikelihood,Nothing};
         feat=nothing,
         mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
         num_latent::Union{Int,Nothing}=nothing,
