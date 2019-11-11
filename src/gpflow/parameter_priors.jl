@@ -9,7 +9,9 @@ export
     Gamma,
     Laplace,
     Uniform,
-    instantiate!
+    instantiate!,
+    logp,
+    sample
 
 function logp(obj <: Prior, x)
     return  obj.o.logp(x)
