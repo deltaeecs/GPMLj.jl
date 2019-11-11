@@ -4,6 +4,9 @@ using ..gpflow
 import ..gpflow: instantiate!
 export 
     Matern52,
+    ArcCosine,
+    Periodic,
+    Coregion,
     instantiate!
 
 abstract type Stationary <: Kernel end

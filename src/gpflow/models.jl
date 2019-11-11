@@ -4,14 +4,14 @@ using ..gpflow
 import ..gpflow: instantiate!, predict_f, predict_f_samples
 export 
     GPR,
-    instantiate!,
-    predict_f,
-    predict_f_samples,
     SGPR,
     VGP,
     SVGP,
     GPMC,
-    SGPMC
+    SGPMC,
+    instantiate!,
+    predict_f,
+    predict_f_samples
 
 abstract type GPModel <: Model end
 

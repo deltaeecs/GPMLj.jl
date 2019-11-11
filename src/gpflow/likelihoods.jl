@@ -3,7 +3,20 @@ module likelihoods
 using ..gpflow
 import ..gpflow: instantiate!
 export 
+    Bernoulli,
+    Beta,
+    Exponential,
+    Gamma,
     Gaussian,
+    Likelihood,
+    MonteCarloLikelihood,
+    MultiClass,
+    Ordinal,
+    Poisson,
+    RobustMax,
+    SoftMax,
+    StudentT,
+    SwitchedLikelihood,
     instantiate!
 
 mutable struct Bernoulli<:AbstractLikelihood

@@ -3,13 +3,13 @@ module mean_functions
 using ..gpflow
 import ..gpflow: instantiate!, predict_f, predict_f_samples
 export
-    instantiate!,
     Additive,
     Constant,
     Identity,
     Linear,
-    MeanFunction
-
+    MeanFunction,
+    instantiate!
+    
 mutable struct Additive{T1,T2} <: AbstractMeanFunction
     first_part::T1
     second_part::T2

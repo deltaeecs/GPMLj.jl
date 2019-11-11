@@ -15,7 +15,7 @@ export
     Kernel,
     AbstractLikelihood,
     AbstractMeanFunction,
-    ParameterPrior,
+    Prior,
     Optimizer,
     PyObject,
     GPFlowObject
@@ -24,7 +24,7 @@ abstract type Model <: GPFlowObject end
 abstract type Kernel <: GPFlowObject end
 abstract type AbstractLikelihood <: GPFlowObject end
 abstract type AbstractMeanFunction <: GPFlowObject end
-abstract type ParameterPrior <: GPFlowObject end
+abstract type Prior <: GPFlowObject end
 abstract type Optimizer <: GPFlowObject end
 
 py_gpflow= nothing;
@@ -33,7 +33,7 @@ function __init__()
 end
 
 
-function instantiate!(o::Union{Model,Kernel,AbstractLikelihood,AbstractMeanFunction,ParameterPrior}) end
+function instantiate!(o::Union{Model,Kernel,AbstractLikelihood,AbstractMeanFunction,Prior}) end
 function minimize!(opt::Optimizer, m::Model) end
 
 function predict_f(m::Model, Xnew) end
