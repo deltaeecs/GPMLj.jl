@@ -5,6 +5,10 @@ import ..gpflow: instantiate!
 
 export
     Gaussian,
+    LogNormal,
+    Gamma,
+    Laplace,
+    Uniform,
     instantiate!
 
 function logp(obj <: Prior, x)
