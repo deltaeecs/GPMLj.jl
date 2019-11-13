@@ -11,7 +11,7 @@ Random.seed!(123)
         @test typeof(kern)<:gpflow.kernels.Matern52
         @test typeof(kern.o)<:PyObject
         temp = kern.o
-        @test instantiate!(kern) == kern.o
+        @test instantiate!(kern) == temp
     end
 
     @testset "ArcCosine" begin
@@ -20,7 +20,7 @@ Random.seed!(123)
         @test typeof(kern)<:gpflow.kernels.ArcCosine
         @test typeof(kern.o)<:PyObject
         temp = kern.o
-        @test instantiate!(kern) == kern.o
+        @test instantiate!(kern) == temp
     end
 
     @testset "Periodic" begin
@@ -29,7 +29,7 @@ Random.seed!(123)
         @test typeof(kern)<:gpflow.kernels.Periodic
         @test typeof(kern.o)<:PyObject
         temp = kern.o
-        @test instantiate!(kern) == kern.o
+        @test instantiate!(kern) == temp
     end
 
     # TODO
@@ -39,9 +39,9 @@ Random.seed!(123)
     #     @test typeof(kern)<:gpflow.kernels.Coregion
     #     @test typeof(kern.o)<:PyObject
     #     temp = kern.o
-    #     @test instantiate!(kern) == kern.o
+    #     @test instantiate!(kern) == temp
     # end
 
-    
+
 
 end #module
