@@ -107,7 +107,7 @@ end
 
 # TODO GaussianMC not implemented in GPFlow
 function GaussianMC()
-    @error "GaussianMC not implemented"
+    throw("GaussianMC not implemented")
 end
 
 mutable struct Likelihood<:AbstractLikelihood
@@ -213,7 +213,7 @@ function instantiate!(o::Union{RobustMax,Nothing})
     o.o = py_gpflow.likelihoods.RobustMax(o.num_classes; epsilon=o.epsilon)
 end
 
-mutable struct SoftMax{T}<:AbstractLikelihood
+mutable struct SoftMax<:AbstractLikelihood
     num_classes::Integer
     o::Union{PyObject,Nothing}
 end
