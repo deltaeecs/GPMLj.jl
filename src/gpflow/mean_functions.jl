@@ -42,7 +42,7 @@ mutable struct Constant{T1} <: AbstractMeanFunction
 end
 
 function Constant(;c=nothing)
-    out = Additive(c, nothing)
+    out = Constant(c, nothing)
     instantiate!(out)
     out
 end
@@ -90,12 +90,12 @@ end
 
 mutable struct Linear{T1,T2} <: AbstractLinear
     A::T1
-    B::T2
+    b::T2
     o::Union{PyObject,Nothing}
 end
 
-function Linear(;A=nothing, B=nothing)
-    out = Linear(A, B, nothing)
+function Linear(;A=nothing, b=nothing)
+    out = Linear(A, b, nothing)
     instantiate!(out)
     out
 end
@@ -103,7 +103,7 @@ end
 function instantiate!(o::Union{Linear,Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
-    o.o = py_gpflow.mean_functions.Linear(;A=o.A, B=o.B)
+    o.o = py_gpflow.mean_functions.Linear(;A=o.A, b=o.b)
     return o.o
 end
 
