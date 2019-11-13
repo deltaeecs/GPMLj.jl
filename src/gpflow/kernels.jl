@@ -48,18 +48,20 @@ function instantiate!(o::Union{Matern52,Nothing})
     return o.o
 end 
 
-mutable struct ArcCosine{T1,T2,T3,T4,T5,T6,T7} <: Kernel 
-    order::T1
-    variance::T2
-    weight_variances::T3
-    bias_variance::T4
-    active_dims::T5
-    ARD::T6
-    name::T7
+mutable struct ArcCosine{T1,T2,T3,T4,T5,T6,T7,T8} <: Kernel 
+    input_dim::T1
+    order::T2
+    variance::T3
+    weight_variances::T4
+    bias_variance::T5
+    active_dims::T6
+    ARD::T7
+    name::T8
     o::Union{PyObject,Nothing}
 end
 
-function ArcCosine(;
+function ArcCosine(
+    input_dim;
     order=0,
     variance=1.0, 
     weight_variances=1., 
@@ -69,6 +71,7 @@ function ArcCosine(;
     name=nothing
 )
     out = ArcCosine(
+        input_dim,
         order,
         variance,
         weight_variances,
@@ -86,6 +89,7 @@ function instantiate!(o::Union{ArcCosine,Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.ArcCosine(
+        o.input_dim,
         order=o.order,
         variance=o.variance,
         weight_variances=o.weight_variances,
@@ -142,28 +146,22 @@ function instantiate!(o::Union{Periodic,Nothing})
     return o.o
 end 
 
-mutable struct Coregion{T1,T2,T3,T4,T5} <: Kernel
-    input_dim::T1
-    output_dim::T2
-    rank::T3
-    active_dims::T4
-    name::T5
+mutable struct Coregion{T1,T2,T3} <: Kernel
+    output_dim::T1
+    rank::T2
+    active_dims::T3
     o::Union{PyObject,Nothing}
 end
 
 function Coregion(
-    input_dim, 
     output_dim, 
     rank; 
     active_dims=nothing, 
-    name=nothing
 )
     out = Coregion(
-        input_dim,
         output_dim,
         rank,
         active_dims,
-        name,
         nothing
     )
     instantiate!(out)
@@ -174,11 +172,9 @@ function instantiate!(o::Union{Coregion,Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.Coregion(
-        o.input_dim,
         o.output_dim,
         o.rank;
-        active_dims=o.active_dims,
-        name=o.name
+        active_dims=o.active_dims
     )
     return o.o
 end 

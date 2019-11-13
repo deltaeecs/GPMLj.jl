@@ -13,11 +13,11 @@ export
     logp,
     sample
 
-function logp(obj <: Prior, x)
+function logp(obj::T, x) where T <: Prior
     return  obj.o.logp(x)
 end
 
-function sample(obj <: Prior; shape=(1,))
+function logp(obj::T; shape=(1,)) where T <: Prior
     return  obj.o.sample(shape=shape)
 end
 
