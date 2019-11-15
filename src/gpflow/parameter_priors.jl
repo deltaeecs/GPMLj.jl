@@ -24,7 +24,7 @@ end
 mutable struct Gaussian{T1,T2} <: Prior
     mu::T1
     var::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Gaussian(mu, var)
@@ -33,7 +33,7 @@ function Gaussian(mu, var)
     out
 end
 
-function instantiate!(o::Union{Gaussian,Nothing})
+function instantiate!(o::Union{Gaussian, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.priors.Gaussian(o.mu, o.var)
@@ -43,7 +43,7 @@ end
 mutable struct LogNormal{T1,T2} <: Prior
     mu::T1
     var::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function LogNormal(mu, var)
@@ -52,7 +52,7 @@ function LogNormal(mu, var)
     out
 end
 
-function instantiate!(o::Union{LogNormal,Nothing})
+function instantiate!(o::Union{LogNormal, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.priors.LogNormal(o.mu, o.var)
@@ -62,7 +62,7 @@ end
 mutable struct Gamma{T1,T2} <: Prior
     shape::T1
     scale::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Gamma(shape, scale)
@@ -71,7 +71,7 @@ function Gamma(shape, scale)
     out
 end
 
-function instantiate!(o::Union{Gamma,Nothing})
+function instantiate!(o::Union{Gamma, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.priors.Gamma(o.shape, o.scale)
@@ -81,7 +81,7 @@ end
 mutable struct Laplace{T1,T2} <: Prior
     mu::T1
     sigma::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Laplace(mu, sigma)
@@ -90,7 +90,7 @@ function Laplace(mu, sigma)
     out
 end
 
-function instantiate!(o::Union{Laplace,Nothing})
+function instantiate!(o::Union{Laplace, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.priors.Laplace(o.mu, o.sigma)
@@ -100,7 +100,7 @@ end
 mutable struct Uniform{T1,T2} <: Prior
     lower::T1
     upper::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Uniform(;lower=0.0, upper=1.0)
@@ -109,7 +109,7 @@ function Uniform(;lower=0.0, upper=1.0)
     out
 end
 
-function instantiate!(o::Union{Uniform,Nothing})
+function instantiate!(o::Union{Uniform, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.priors.Uniform(;lower=o.lower, upper=o.upper)

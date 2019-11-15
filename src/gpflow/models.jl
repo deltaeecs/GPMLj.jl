@@ -25,26 +25,26 @@ end
 mutable struct GPR{T1,T2} <: GPModel
     X::T1
     Y::T2
-    kern::Union{Kernel,Nothing}
-    mean_function::Union{AbstractMeanFunction,Nothing}
-    name::Union{String,Nothing}
-    likelihood::Union{AbstractLikelihood,Nothing}
-    o::Union{PyObject,Nothing}
+    kern::Union{Kernel, Nothing}
+    mean_function::Union{AbstractMeanFunction, Nothing}
+    name::Union{String, Nothing}
+    likelihood::Union{AbstractLikelihood, Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function GPR(
     X, 
     Y, 
     kern::Kernel; 
-    mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
-    name::Union{String,Nothing}=nothing
+    mean_function::Union{AbstractMeanFunction, Nothing}=nothing, 
+    name::Union{String, Nothing}=nothing
 )
     out = GPR(X, Y, kern, mean_function, name, nothing, nothing)
     instantiate!(out)
     return out
 end
 
-function instantiate!(o::Union{GPR,Nothing})
+function instantiate!(o::Union{GPR, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     kern_ = instantiate!(o.kern)
@@ -61,29 +61,29 @@ end
 mutable struct SGPR{T1,T2,T3} <: GPModel
     X::T1
     Y::T2
-    kern::Union{Kernel,Nothing}
+    kern::Union{Kernel, Nothing}
     feat
-    mean_function::Union{AbstractMeanFunction,Nothing}
+    mean_function::Union{AbstractMeanFunction, Nothing}
     Z::T3
-    name::Union{String,Nothing}
-    o::Union{PyObject,Nothing}
+    name::Union{String, Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function SGPR(  
     X, 
     Y, 
-    kern::Union{Kernel,Nothing};        
+    kern::Union{Kernel, Nothing};        
     feat=nothing,
-    mean_function::Union{AbstractMeanFunction,Nothing}=nothing,
+    mean_function::Union{AbstractMeanFunction, Nothing}=nothing,
     Z=nothing,
-    name::Union{String,Nothing}=nothing
+    name::Union{String, Nothing}=nothing
 )
     out = SGPR(X, Y, kern, feat, mean_function, Z, name, nothing)
     instantiate!(out)
     return out
 end
 
-function instantiate!(o::Union{SGPR,Nothing})
+function instantiate!(o::Union{SGPR, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     kern_ = instantiate!(o.kern)
@@ -99,20 +99,20 @@ end
 mutable struct VGP{T1,T2} <: GPModel
     X::T1
     Y::T2
-    kern::Union{Kernel,Nothing}
-    likelihood::Union{AbstractLikelihood,Nothing}
-    mean_function::Union{AbstractMeanFunction,Nothing}
-    num_latent::Union{Int,Nothing}
-    o::Union{PyObject,Nothing}
+    kern::Union{Kernel, Nothing}
+    likelihood::Union{AbstractLikelihood, Nothing}
+    mean_function::Union{AbstractMeanFunction, Nothing}
+    num_latent::Union{Int, Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function VGP(
     X, 
     Y, 
-    kern::Union{Kernel,Nothing}, 
-    likelihood::Union{AbstractLikelihood,Nothing};
-    mean_function::Union{AbstractMeanFunction,Nothing}=nothing,
-    num_latent::Union{Int,Nothing}=nothing
+    kern::Union{Kernel, Nothing}, 
+    likelihood::Union{AbstractLikelihood, Nothing};
+    mean_function::Union{AbstractMeanFunction, Nothing}=nothing,
+    num_latent::Union{Int, Nothing}=nothing
 )
     out = VGP(X, Y, kern, likelihood, mean_function, num_latent, nothing)
     instantiate!(out)
@@ -136,32 +136,32 @@ end
 mutable struct SVGP{T1,T2,T3,T4,T5,T6} <: GPModel
     X::T1
     Y::T2
-    kern::Union{Kernel,Nothing}
-    likelihood::Union{AbstractLikelihood,Nothing}
+    kern::Union{Kernel, Nothing}
+    likelihood::Union{AbstractLikelihood, Nothing}
     feat::T3
-    mean_function::Union{AbstractMeanFunction,Nothing}
-    num_latent::Union{Int,Nothing}
+    mean_function::Union{AbstractMeanFunction, Nothing}
+    num_latent::Union{Int, Nothing}
     q_diag::Bool
     whiten::Bool
-    minibatch_size::Union{Int,Nothing}
+    minibatch_size::Union{Int, Nothing}
     Z::T4
-    num_data::Union{Int,Nothing}
+    num_data::Union{Int, Nothing}
     q_mu::T5
     q_sqrt::T6
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function SVGP(
     X, 
     Y, 
-    kern::Union{Kernel,Nothing}, 
-    likelihood::Union{AbstractLikelihood,Nothing};
+    kern::Union{Kernel, Nothing}, 
+    likelihood::Union{AbstractLikelihood, Nothing};
     feat=nothing, 
-    mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
-    num_latent::Union{Int,Nothing}=nothing, 
+    mean_function::Union{AbstractMeanFunction, Nothing}=nothing, 
+    num_latent::Union{Int, Nothing}=nothing, 
     q_diag::Bool=false,
     whiten::Bool=true, 
-    minibatch_size::Union{Int,Nothing}=nothing, 
+    minibatch_size::Union{Int, Nothing}=nothing, 
     Z=nothing, 
     num_data=nothing, 
     q_mu=nothing, 
@@ -217,20 +217,20 @@ end
 mutable struct GPMC{T1,T2} <: GPModel
     X::T1
     Y::T2
-    kern::Union{Kernel,Nothing}
-    likelihood::Union{AbstractLikelihood,Nothing}
-    mean_function::Union{AbstractMeanFunction,Nothing}
-    num_latent::Union{Int,Nothing}
-    o::Union{PyObject,Nothing}
+    kern::Union{Kernel, Nothing}
+    likelihood::Union{AbstractLikelihood, Nothing}
+    mean_function::Union{AbstractMeanFunction, Nothing}
+    num_latent::Union{Int, Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function GPMC(  
     X, 
     Y, 
-    kern::Union{Kernel,Nothing}, 
-    likelihood::Union{AbstractLikelihood,Nothing};
-    mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
-    num_latent::Union{Int,Nothing}=nothing,
+    kern::Union{Kernel, Nothing}, 
+    likelihood::Union{AbstractLikelihood, Nothing};
+    mean_function::Union{AbstractMeanFunction, Nothing}=nothing, 
+    num_latent::Union{Int, Nothing}=nothing,
 )
     out = GPMC( 
         X,
@@ -266,23 +266,23 @@ end
 mutable struct SGPMC{T1,T2,T3,T4} <: GPModel
     X::T1
     Y::T2
-    kern::Union{Kernel,Nothing}
-    likelihood::Union{AbstractLikelihood,Nothing}
+    kern::Union{Kernel, Nothing}
+    likelihood::Union{AbstractLikelihood, Nothing}
     feat::T3
-    mean_function::Union{AbstractMeanFunction,Nothing}
-    num_latent::Union{Int,Nothing}
+    mean_function::Union{AbstractMeanFunction, Nothing}
+    num_latent::Union{Int, Nothing}
     Z::T4
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function SGPMC( 
     X, 
     Y, 
-    kern::Union{Kernel,Nothing}, 
-    likelihood::Union{AbstractLikelihood,Nothing};
+    kern::Union{Kernel, Nothing}, 
+    likelihood::Union{AbstractLikelihood, Nothing};
     feat=nothing,
-    mean_function::Union{AbstractMeanFunction,Nothing}=nothing, 
-    num_latent::Union{Int,Nothing}=nothing,
+    mean_function::Union{AbstractMeanFunction, Nothing}=nothing, 
+    num_latent::Union{Int, Nothing}=nothing,
     Z=nothing
     )
     out = SGPMC(

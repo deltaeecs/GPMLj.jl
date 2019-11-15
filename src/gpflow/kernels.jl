@@ -40,8 +40,8 @@ mutable struct Matern52 <: Stationary
     lengthscales
     active_dims
     ARD
-    name::Union{String,Nothing}
-    o::Union{PyObject,Nothing}
+    name::Union{String, Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Matern52(
@@ -57,7 +57,7 @@ function Matern52(
     return out
 end
 
-function instantiate!(o::Union{Matern52,Nothing})
+function instantiate!(o::Union{Matern52, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.Matern52(
@@ -80,7 +80,7 @@ mutable struct ArcCosine{T1,T2,T3,T4,T5,T6,T7,T8} <: Kernel
     active_dims::T6
     ARD::T7
     name::T8
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function ArcCosine(
@@ -108,7 +108,7 @@ function ArcCosine(
     return out
 end
 
-function instantiate!(o::Union{ArcCosine,Nothing})
+function instantiate!(o::Union{ArcCosine, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.ArcCosine(
@@ -131,7 +131,7 @@ mutable struct Periodic{T1,T2,T3,T4,T5,T6} <: Kernel
     lengthscales::T4
     active_dims::T5
     name::T6
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Periodic(
@@ -155,7 +155,7 @@ function Periodic(
     return out
 end
 
-function instantiate!(o::Union{Periodic,Nothing})
+function instantiate!(o::Union{Periodic, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.Periodic(
@@ -173,7 +173,7 @@ mutable struct Coregion{T1,T2,T3} <: Kernel
     output_dim::T1
     rank::T2
     active_dims::T3
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Coregion(
@@ -191,7 +191,7 @@ function Coregion(
     return out
 end
 
-function instantiate!(o::Union{Coregion,Nothing})
+function instantiate!(o::Union{Coregion, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.Coregion(

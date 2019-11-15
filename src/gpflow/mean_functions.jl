@@ -13,7 +13,7 @@ export
 mutable struct Additive{T1,T2} <: AbstractMeanFunction
     first_part::T1
     second_part::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Additive(first_part, second_part)
@@ -22,7 +22,7 @@ function Additive(first_part, second_part)
     out
 end
 
-function instantiate!(o::Union{Additive,Nothing})
+function instantiate!(o::Union{Additive, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.mean_functions.Additive(o.first_part, o.second_part)
@@ -38,7 +38,7 @@ end
 
 mutable struct Constant{T1} <: AbstractMeanFunction
     c::T1
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Constant(;c=nothing)
@@ -47,7 +47,7 @@ function Constant(;c=nothing)
     out
 end
 
-function instantiate!(o::Union{Constant,Nothing})
+function instantiate!(o::Union{Constant, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.mean_functions.Constant(;c=o.c)
@@ -65,7 +65,7 @@ abstract type AbstractLinear <: AbstractMeanFunction end
 
 mutable struct Identity{T1} <: AbstractLinear
     input_dim::T1
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Identity(;input_dim=nothing)
@@ -74,7 +74,7 @@ function Identity(;input_dim=nothing)
     out
 end
 
-function instantiate!(o::Union{Identity,Nothing})
+function instantiate!(o::Union{Identity, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.mean_functions.Identity(;input_dim=o.input_dim)
@@ -91,7 +91,7 @@ end
 mutable struct Linear{T1,T2} <: AbstractLinear
     A::T1
     b::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Linear(;A=nothing, b=nothing)
@@ -100,7 +100,7 @@ function Linear(;A=nothing, b=nothing)
     out
 end
 
-function instantiate!(o::Union{Linear,Nothing})
+function instantiate!(o::Union{Linear, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.mean_functions.Linear(;A=o.A, b=o.b)
@@ -116,7 +116,7 @@ end
 
 mutable struct MeanFunction{T1} <: AbstractMeanFunction
     name::T1
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function MeanFunction(;name=nothing)
@@ -125,7 +125,7 @@ function MeanFunction(;name=nothing)
     return out
 end
 
-function instantiate!(o::Union{MeanFunction,Nothing})
+function instantiate!(o::Union{MeanFunction, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.mean_functions.MeanFunction(;name=o.name)

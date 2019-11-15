@@ -21,7 +21,7 @@ export
 
 mutable struct Bernoulli<:AbstractLikelihood
     # invlink # TODO: add capability to add custom invlink
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Bernoulli()
@@ -30,7 +30,7 @@ function Bernoulli()
     return out
 end
 
-function instantiate!(o::Union{Bernoulli,Nothing})
+function instantiate!(o::Union{Bernoulli, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Bernoulli()
@@ -39,7 +39,7 @@ end
 mutable struct Beta{T}<:AbstractLikelihood
     # invlink # TODO: add capability to add custom invlink
     scale::T
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Beta(;scale::Real=1.0)
@@ -48,7 +48,7 @@ function Beta(;scale::Real=1.0)
     return out
 end
 
-function instantiate!(o::Union{Beta,Nothing})
+function instantiate!(o::Union{Beta, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Beta(;scale=o.scale)
@@ -56,7 +56,7 @@ end
 
 mutable struct Exponential<:AbstractLikelihood
     # invlink # TODO: add capability to add custom invlink
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Exponential()
@@ -65,7 +65,7 @@ function Exponential()
     return out
 end
 
-function instantiate!(o::Union{Exponential,Nothing})
+function instantiate!(o::Union{Exponential, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Exponential()
@@ -73,7 +73,7 @@ end
 
 mutable struct Gamma<:AbstractLikelihood
     # invlink # TODO: add capability to add custom invlink
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Gamma()
@@ -82,7 +82,7 @@ function Gamma()
     return out
 end
 
-function instantiate!(o::Union{Gamma,Nothing})
+function instantiate!(o::Union{Gamma, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Gamma()
@@ -90,7 +90,7 @@ end
 
 mutable struct Gaussian{T}<:AbstractLikelihood
     variance::T
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Gaussian(;variance::T=1.0) where T <: Real
@@ -99,7 +99,7 @@ function Gaussian(;variance::T=1.0) where T <: Real
     return out
 end
 
-function instantiate!(o::Union{Gaussian,Nothing})
+function instantiate!(o::Union{Gaussian, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Gaussian(;variance=o.variance)
@@ -111,7 +111,7 @@ function GaussianMC()
 end
 
 mutable struct Likelihood<:AbstractLikelihood
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Likelihood()
@@ -120,14 +120,14 @@ function Likelihood()
     return out
 end
 
-function instantiate!(o::Union{Likelihood,Nothing})
+function instantiate!(o::Union{Likelihood, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Likelihood()
 end
 
 mutable struct MonteCarloLikelihood<:AbstractLikelihood
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function MonteCarloLikelihood()
@@ -136,7 +136,7 @@ function MonteCarloLikelihood()
     return out
 end
 
-function instantiate!(o::Union{MonteCarloLikelihood,Nothing})
+function instantiate!(o::Union{MonteCarloLikelihood, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.MonteCarloLikelihood()
@@ -145,7 +145,7 @@ end
 mutable struct MultiClass<:AbstractLikelihood
     num_classes::Integer
     # invlink # TODO: add capability to add custom invlink
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function MultiClass(num_classes::Integer)
@@ -154,7 +154,7 @@ function MultiClass(num_classes::Integer)
     return out
 end
 
-function instantiate!(o::Union{MultiClass,Nothing})
+function instantiate!(o::Union{MultiClass, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.MultiClass(o.num_classes)
@@ -162,7 +162,7 @@ end
 
 mutable struct Ordinal{T}<:AbstractLikelihood
     bin_edges::T
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Ordinal(bin_edges)
@@ -171,7 +171,7 @@ function Ordinal(bin_edges)
     return out
 end
 
-function instantiate!(o::Union{Ordinal,Nothing})
+function instantiate!(o::Union{Ordinal, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Ordinal(o.bin_edges)
@@ -180,7 +180,7 @@ end
 mutable struct Poisson{T}<:AbstractLikelihood
     # invlink # TODO: add capability to add custom invlink
     binsize::T
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function Poisson(;binsize::Real=1.0)
@@ -189,7 +189,7 @@ function Poisson(;binsize::Real=1.0)
     return out
 end
 
-function instantiate!(o::Union{Poisson,Nothing})
+function instantiate!(o::Union{Poisson, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.Poisson(;binsize=o.binsize)
@@ -198,7 +198,7 @@ end
 mutable struct RobustMax{T}<:AbstractLikelihood where T <: Real
     num_classes::Integer
     epsilon::T
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function RobustMax(num_classes::Integer; epsilon::Real=1e-3)
@@ -207,7 +207,7 @@ function RobustMax(num_classes::Integer; epsilon::Real=1e-3)
     return out
 end
 
-function instantiate!(o::Union{RobustMax,Nothing})
+function instantiate!(o::Union{RobustMax, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.RobustMax(o.num_classes; epsilon=o.epsilon)
@@ -215,7 +215,7 @@ end
 
 mutable struct SoftMax<:AbstractLikelihood
     num_classes::Integer
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function SoftMax(num_classes::Integer)
@@ -224,7 +224,7 @@ function SoftMax(num_classes::Integer)
     return out
 end
 
-function instantiate!(o::Union{SoftMax,Nothing})
+function instantiate!(o::Union{SoftMax, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.SoftMax(o.num_classes)
@@ -233,7 +233,7 @@ end
 mutable struct StudentT{T1,T2}<:AbstractLikelihood where {T1 <: Real, T2 <: Real}
     scale::T1
     df::T2
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function StudentT(;scale::Real=1.0, df::Real=3.0)
@@ -242,7 +242,7 @@ function StudentT(;scale::Real=1.0, df::Real=3.0)
     return out
 end
 
-function instantiate!(o::Union{StudentT,Nothing})
+function instantiate!(o::Union{StudentT, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.StudentT(;scale=o.scale, df=o.df)
@@ -250,7 +250,7 @@ end
 
 mutable struct SwitchedLikelihood{T}<:AbstractLikelihood
     likelihood_list::T
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function SwitchedLikelihood(likelihood_list)
@@ -259,7 +259,7 @@ function SwitchedLikelihood(likelihood_list)
     return out
 end
 
-function instantiate!(o::Union{SwitchedLikelihood,Nothing})
+function instantiate!(o::Union{SwitchedLikelihood, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.likelihoods.SwitchedLikelihood(likelihood_list)

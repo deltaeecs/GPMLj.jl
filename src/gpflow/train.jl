@@ -7,7 +7,7 @@ export
     minimize!
 
 mutable struct ScipyOptimizer<:Optimizer
-    o::Union{PyObject,Nothing}
+    o::Union{PyObject, Nothing}
 end
 
 function ScipyOptimizer()
@@ -16,11 +16,11 @@ function ScipyOptimizer()
     out
 end
 
-function minimize!(opt::Union{ScipyOptimizer,Nothing}, m::Model)
+function minimize!(opt::Union{ScipyOptimizer, Nothing}, m::Model)
 opt.o.minimize(m.o)
 end
 
-function instantiate!(o::Union{ScipyOptimizer,Nothing})
+function instantiate!(o::Union{ScipyOptimizer, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.train.ScipyOptimizer()
