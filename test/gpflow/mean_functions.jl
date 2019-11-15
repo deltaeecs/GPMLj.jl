@@ -2,7 +2,6 @@ using GPJ, Test, Random, PyCall
 
 Random.seed!(123)
 
-
 @testset "MeanFunctions" begin
 
     @testset "Additive" begin
@@ -50,7 +49,5 @@ Random.seed!(123)
         temp = mf.o
         @test instantiate!(mf) == temp
     end
-
-
 
 end #module

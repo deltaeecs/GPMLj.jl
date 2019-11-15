@@ -9,7 +9,7 @@ export
     Linear,
     MeanFunction,
     instantiate!
-    
+
 mutable struct Additive{T1,T2} <: AbstractMeanFunction
     first_part::T1
     second_part::T2

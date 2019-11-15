@@ -17,8 +17,8 @@ function logp(obj::T, x) where T <: Prior
     return  obj.o.logp(x)
 end
 
-function logp(obj::T; shape=(1,)) where T <: Prior
-    return  obj.o.sample(shape=shape)
+function sample(obj::T; shape=(1,)) where T <: Prior
+    return  obj.o.sample(;shape=shape)
 end
 
 mutable struct Gaussian{T1,T2} <: Prior
