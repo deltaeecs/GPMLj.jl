@@ -2,16 +2,39 @@ module kernels
 
 using ..gpflow
 import ..gpflow: instantiate!
-export 
-    Matern52,
+export
     ArcCosine,
-    Periodic,
+    # TODO Constant,
+    # TODO ChangePoints,
+    # TODO Combination,
+    # TODO Convolutional,
     Coregion,
+    # TODO Cosine,
+    # TODO Exponential,
+    # TODO IndependentLatent,
+    # TODO Kernel,
+    # TODO Linear,
+    # TODO LinearCoregionalization,
+    # TODO Matern12,
+    # TODO Matern32,
+    Matern52,
+    # TODO MultioutputKernel,
+    Periodic,
+    # TODO Polynomial,
+    # TODO Product,
+    # TODO SquaredExponential,
+    # TODO RationalQuadratic,
+    # TODO SeparateIndependent,
+    # TODO SharedIndependent,
+    # TODO Static,
+    # TODO Stationary,
+    # TODO Sum,
+    # TODO White,
     instantiate!
 
 abstract type Stationary <: Kernel end
 
-mutable struct Matern52 <: Stationary 
+mutable struct Matern52 <: Stationary
     input_dim
     variance
     lengthscales
@@ -22,11 +45,11 @@ mutable struct Matern52 <: Stationary
 end
 
 function Matern52(
-    input_dim; 
-    variance=1.0, 
-    lengthscales=1.0, 
-    active_dims=nothing, 
-    ARD=nothing, 
+    input_dim;
+    variance=1.0,
+    lengthscales=1.0,
+    active_dims=nothing,
+    ARD=nothing,
     name=nothing
 )
     out = Matern52(input_dim, variance, lengthscales, active_dims, ARD, name, nothing)
@@ -38,17 +61,17 @@ function instantiate!(o::Union{Matern52,Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.Matern52(
-        o.input_dim; 
-        variance=o.variance, 
-        lengthscales=o.lengthscales, 
-        active_dims=o.active_dims, 
-        ARD=o.ARD, 
+        o.input_dim;
+        variance=o.variance,
+        lengthscales=o.lengthscales,
+        active_dims=o.active_dims,
+        ARD=o.ARD,
         name=o.name
     )
     return o.o
-end 
+end
 
-mutable struct ArcCosine{T1,T2,T3,T4,T5,T6,T7,T8} <: Kernel 
+mutable struct ArcCosine{T1,T2,T3,T4,T5,T6,T7,T8} <: Kernel
     input_dim::T1
     order::T2
     variance::T3
@@ -63,11 +86,11 @@ end
 function ArcCosine(
     input_dim;
     order=0,
-    variance=1.0, 
-    weight_variances=1., 
+    variance=1.0,
+    weight_variances=1.,
     bias_variance=1.,
-    active_dims=nothing, 
-    ARD=nothing, 
+    active_dims=nothing,
+    ARD=nothing,
     name=nothing
 )
     out = ArcCosine(
@@ -99,7 +122,7 @@ function instantiate!(o::Union{ArcCosine,Nothing})
         name=o.name
     )
     return o.o
-end 
+end
 
 mutable struct Periodic{T1,T2,T3,T4,T5,T6} <: Kernel
     input_dim::T1
@@ -113,10 +136,10 @@ end
 
 function Periodic(
     input_dim;
-    period=1.0, 
+    period=1.0,
     variance=1.0,
-    lengthscales=1.0, 
-    active_dims=nothing, 
+    lengthscales=1.0,
+    active_dims=nothing,
     name=nothing
 )
     out = Periodic(
@@ -144,7 +167,7 @@ function instantiate!(o::Union{Periodic,Nothing})
         name=o.name
     )
     return o.o
-end 
+end
 
 mutable struct Coregion{T1,T2,T3} <: Kernel
     output_dim::T1
@@ -154,9 +177,9 @@ mutable struct Coregion{T1,T2,T3} <: Kernel
 end
 
 function Coregion(
-    output_dim, 
-    rank; 
-    active_dims=nothing, 
+    output_dim,
+    rank;
+    active_dims=nothing,
 )
     out = Coregion(
         output_dim,
@@ -177,6 +200,6 @@ function instantiate!(o::Union{Coregion,Nothing})
         active_dims=o.active_dims
     )
     return o.o
-end 
+end
 
 end # module
