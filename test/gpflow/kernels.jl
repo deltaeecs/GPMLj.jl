@@ -43,5 +43,15 @@ Random.seed!(123)
     # end
 
 
+    # Static Kernels
+    @testset "Static" begin
+        kern = gpflow.kernels.Static(2)
+        @test typeof(kern)<:gpflow.Kernel
+        @test typeof(kern)<:gpflow.kernels.Static
+        @test typeof(kern.o)<:PyObject
+        temp = kern.o
+        @test instantiate!(kern) == temp
+    end
+
 
 end #module

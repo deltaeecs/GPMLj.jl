@@ -4,7 +4,7 @@ using ..gpflow
 import ..gpflow: instantiate!
 export
     ArcCosine,
-    # TODO Constant,
+    Constant,
     # TODO ChangePoints,
     # TODO Combination,
     # TODO Convolutional,
@@ -26,11 +26,13 @@ export
     # TODO RationalQuadratic,
     # TODO SeparateIndependent,
     # TODO SharedIndependent,
-    # TODO Static,
+    Static,
     # TODO Stationary,
     # TODO Sum,
-    # TODO White,
+    White,
     instantiate!
+
+# Stationary Kernels
 
 abstract type Stationary <: Kernel end
 
@@ -67,6 +69,87 @@ function instantiate!(o::Union{Matern52, Nothing})
         active_dims=o.active_dims,
         ARD=o.ARD,
         name=o.name
+    )
+    return o.o
+end
+
+# Static Kernels
+mutable struct Static <: Kernel
+    input_dim
+    variance
+    active_dims
+    o::Union{PyObject, Nothing}
+end
+
+function Static(
+    input_dim;
+    variance=1.0,
+    active_dims=nothing,
+)
+    out = Static(input_dim, variance, active_dims, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{Static, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.Static(
+        o.input_dim;
+        variance=o.variance,
+        active_dims=o.active_dims,
+    )
+    return o.o
+end
+
+abstract type AbstractStatic <: Kernel end
+
+mutable struct White <: AbstractStatic
+    variance
+    active_dims
+    o::Union{PyObject, Nothing}
+end
+
+function White(;
+    variance=1.0,
+    active_dims=nothing,
+)
+    out = White(variance, active_dims, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{White, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.White(;
+        variance=o.variance,
+        active_dims=o.active_dims,
+    )
+    return o.o
+end
+
+mutable struct Constant <: AbstractStatic
+    variance
+    active_dims
+    o::Union{PyObject, Nothing}
+end
+
+function Constant(;
+    variance=1.0,
+    active_dims=nothing,
+)
+    out = Constant(variance, active_dims, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{Constant, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.Constant(;
+        variance=o.variance,
+        active_dims=o.active_dims,
     )
     return o.o
 end
