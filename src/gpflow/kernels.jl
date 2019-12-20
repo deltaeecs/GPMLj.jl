@@ -3,33 +3,28 @@ module kernels
 using ..gpflow
 import ..gpflow: instantiate!
 export
-    ArcCosine,
-    Bias,
-    Constant,
     Combination,
+    Product
+    Sum,
+    Stationary,
     Convolutional,
-    Coregion,
-    Cosine,
+    WeightedConvolutional,
+    Cosine
     Exponential,
-    # TODO IndependentLatent,
-    # TODO Kernel,
-    Linear,
-    # TODO LinearCoregionalization,
-    Matern12,
+    RationalQuadratic,
+    SquaredExponential,
+    Linear
+    Polynomial,
+    Matern12
     Matern32,
     Matern52,
-    # TODO MultioutputKernel,
-    Periodic,
-    Polynomial,
-    Product,
-    SquaredExponential,
-    RationalQuadratic,
-    # TODO SeparateIndependent,
-    # TODO SharedIndependent,
     Static,
-    Stationary,
-    Sum,
     White,
+    Bias,
+    Constant,
+    ArcCosine,
+    Periodic
+    Coregion,
     instantiate!
 
 # Stationary Kernels
