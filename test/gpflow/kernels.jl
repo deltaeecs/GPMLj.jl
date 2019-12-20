@@ -7,7 +7,7 @@ Random.seed!(123)
     @testset "Matern12" begin
         kern = gpflow.kernels.Matern12(2)
         @test typeof(kern)<:gpflow.Kernel
-        @test typeof(kern)<:gpflow.kernels.Stationary
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
         @test typeof(kern)<:gpflow.kernels.Matern12
         @test typeof(kern.o)<:PyObject
         temp = kern.o
@@ -17,7 +17,7 @@ Random.seed!(123)
     @testset "Matern32" begin
         kern = gpflow.kernels.Matern32(2)
         @test typeof(kern)<:gpflow.Kernel
-        @test typeof(kern)<:gpflow.kernels.Stationary
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
         @test typeof(kern)<:gpflow.kernels.Matern32
         @test typeof(kern.o)<:PyObject
         temp = kern.o
@@ -27,7 +27,7 @@ Random.seed!(123)
     @testset "Matern52" begin
         kern = gpflow.kernels.Matern52(2)
         @test typeof(kern)<:gpflow.Kernel
-        @test typeof(kern)<:gpflow.kernels.Stationary
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
         @test typeof(kern)<:gpflow.kernels.Matern52
         @test typeof(kern.o)<:PyObject
         temp = kern.o
@@ -125,10 +125,20 @@ Random.seed!(123)
         @test instantiate!(kern) == temp
     end
 
+    @testset "WeightedConvolutional" begin
+        basekern = gpflow.kernels.Matern52(4)
+        kern = gpflow.kernels.Convolutional(basekern, [3, 3], [2, 2])
+        @test typeof(kern)<:gpflow.Kernel
+        @test typeof(kern)<:gpflow.kernels.Convolutional
+        @test typeof(kern.o)<:PyObject
+        temp = kern.o
+        @test instantiate!(kern) == temp
+    end
+
     @testset "Cosine" begin
         kern = gpflow.kernels.Cosine(2)
         @test typeof(kern)<:gpflow.Kernel
-        @test typeof(kern)<:gpflow.kernels.Stationary
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
         @test typeof(kern)<:gpflow.kernels.Cosine
         @test typeof(kern.o)<:PyObject
         temp = kern.o
@@ -138,8 +148,38 @@ Random.seed!(123)
     @testset "Exponential" begin
         kern = gpflow.kernels.Exponential(2)
         @test typeof(kern)<:gpflow.Kernel
-        @test typeof(kern)<:gpflow.kernels.Stationary
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
         @test typeof(kern)<:gpflow.kernels.Exponential
+        @test typeof(kern.o)<:PyObject
+        temp = kern.o
+        @test instantiate!(kern) == temp
+    end
+
+    @testset "RationalQuadratic" begin
+        kern = gpflow.kernels.RationalQuadratic(2)
+        @test typeof(kern)<:gpflow.Kernel
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
+        @test typeof(kern)<:gpflow.kernels.RationalQuadratic
+        @test typeof(kern.o)<:PyObject
+        temp = kern.o
+        @test instantiate!(kern) == temp
+    end
+
+    @testset "SquaredExponential" begin
+        kern = gpflow.kernels.SquaredExponential(2)
+        @test typeof(kern)<:gpflow.Kernel
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
+        @test typeof(kern)<:gpflow.kernels.SquaredExponential
+        @test typeof(kern.o)<:PyObject
+        temp = kern.o
+        @test instantiate!(kern) == temp
+    end
+
+    @testset "Stationary" begin
+        kern = gpflow.kernels.Stationary(2)
+        @test typeof(kern)<:gpflow.Kernel
+        @test typeof(kern)<:gpflow.kernels.AbstractStationary
+        @test typeof(kern)<:gpflow.kernels.Stationary
         @test typeof(kern.o)<:PyObject
         temp = kern.o
         @test instantiate!(kern) == temp

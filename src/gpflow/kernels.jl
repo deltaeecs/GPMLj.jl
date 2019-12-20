@@ -22,19 +22,19 @@ export
     Periodic,
     Polynomial,
     Product,
-    # TODO SquaredExponential,
-    # TODO RationalQuadratic,
+    SquaredExponential,
+    RationalQuadratic,
     # TODO SeparateIndependent,
     # TODO SharedIndependent,
     Static,
-    # TODO Stationary,
+    Stationary,
     Sum,
     White,
     instantiate!
 
 # Stationary Kernels
 
-abstract type Stationary <: Kernel end
+abstract type AbstractStationary <: Kernel end
 abstract type AbstractLinear <: Kernel end
 abstract type AbstractCombination <: Kernel end
 
@@ -113,7 +113,44 @@ function instantiate!(o::Union{Sum, Nothing})
     return o.o
 end
 
-mutable struct Convolutional <: Stationary
+mutable struct Stationary <: AbstractStationary
+    input_dim
+    variance
+    lengthscales
+    active_dims
+    ARD
+    name::Union{String, Nothing}
+    o::Union{PyObject, Nothing}
+end
+
+function Stationary(
+    input_dim;
+    variance=1.0,
+    lengthscales=1.0,
+    active_dims=nothing,
+    ARD=nothing,
+    name=nothing
+)
+    out = Stationary(input_dim, variance, lengthscales, active_dims, ARD, name, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{Stationary, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.Stationary(
+        o.input_dim;
+        variance=o.variance,
+        lengthscales=o.lengthscales,
+        active_dims=o.active_dims,
+        ARD=o.ARD,
+        name=o.name
+    )
+    return o.o
+end
+
+mutable struct Convolutional <: AbstractStationary
     basekern
     img_size
     patch_size
@@ -144,7 +181,38 @@ function instantiate!(o::Union{Convolutional, Nothing})
     return o.o
 end
 
-mutable struct Cosine <: Stationary
+mutable struct WeightedConvolutional <: AbstractStationary
+    basekern
+    img_size
+    patch_size
+    colour_channels
+    o::Union{PyObject, Nothing}
+end
+
+function WeightedConvolutional(
+    basekern,
+    img_size,
+    patch_size;
+    colour_channels=1
+)
+    out = WeightedConvolutional(basekern, img_size, patch_size, colour_channels, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{WeightedConvolutional, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.WeightedConvolutional(
+        o.basekern,
+        o.img_size,
+        o.patch_size;
+        colour_channels=o.colour_channels
+    )
+    return o.o
+end
+
+mutable struct Cosine <: AbstractStationary
     input_dim
     variance
     lengthscales
@@ -181,7 +249,7 @@ function instantiate!(o::Union{Cosine, Nothing})
     return o.o
 end
 
-mutable struct Exponential <: Stationary
+mutable struct Exponential <: AbstractStationary
     input_dim
     variance
     lengthscales
@@ -208,6 +276,80 @@ function instantiate!(o::Union{Exponential, Nothing})
     if o === nothing return nothing end
     if typeof(o.o)<:PyObject return o.o end
     o.o = py_gpflow.kernels.Exponential(
+        o.input_dim;
+        variance=o.variance,
+        lengthscales=o.lengthscales,
+        active_dims=o.active_dims,
+        ARD=o.ARD,
+        name=o.name
+    )
+    return o.o
+end
+
+mutable struct RationalQuadratic <: AbstractStationary
+    input_dim
+    variance
+    lengthscales
+    active_dims
+    ARD
+    name::Union{String, Nothing}
+    o::Union{PyObject, Nothing}
+end
+
+function RationalQuadratic(
+    input_dim;
+    variance=1.0,
+    lengthscales=1.0,
+    active_dims=nothing,
+    ARD=nothing,
+    name=nothing
+)
+    out = RationalQuadratic(input_dim, variance, lengthscales, active_dims, ARD, name, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{RationalQuadratic, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.RationalQuadratic(
+        o.input_dim;
+        variance=o.variance,
+        lengthscales=o.lengthscales,
+        active_dims=o.active_dims,
+        ARD=o.ARD,
+        name=o.name
+    )
+    return o.o
+end
+
+mutable struct SquaredExponential <: AbstractStationary
+    input_dim
+    variance
+    lengthscales
+    active_dims
+    ARD
+    name::Union{String, Nothing}
+    o::Union{PyObject, Nothing}
+end
+
+function SquaredExponential(
+    input_dim;
+    variance=1.0,
+    lengthscales=1.0,
+    active_dims=nothing,
+    ARD=nothing,
+    name=nothing
+)
+    out = SquaredExponential(input_dim, variance, lengthscales, active_dims, ARD, name, nothing)
+    instantiate!(out)
+    return out
+end
+
+function instantiate!(o::Union{SquaredExponential, Nothing})
+    if o === nothing return nothing end
+    if typeof(o.o)<:PyObject return o.o end
+    o.o = py_gpflow.kernels.SquaredExponential(
         o.input_dim;
         variance=o.variance,
         lengthscales=o.lengthscales,
@@ -294,7 +436,7 @@ function instantiate!(o::Union{Polynomial, Nothing})
     return o.o
 end
 
-mutable struct Matern12 <: Stationary
+mutable struct Matern12 <: AbstractStationary
     input_dim
     variance
     lengthscales
@@ -331,7 +473,7 @@ function instantiate!(o::Union{Matern12, Nothing})
     return o.o
 end
 
-mutable struct Matern32 <: Stationary
+mutable struct Matern32 <: AbstractStationary
     input_dim
     variance
     lengthscales
@@ -368,7 +510,7 @@ function instantiate!(o::Union{Matern32, Nothing})
     return o.o
 end
 
-mutable struct Matern52 <: Stationary
+mutable struct Matern52 <: AbstractStationary
     input_dim
     variance
     lengthscales
