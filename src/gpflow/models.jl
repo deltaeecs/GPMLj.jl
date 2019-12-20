@@ -22,6 +22,24 @@ function predict_f_samples(m::GPModel, Xnew, num_samples)
     return m.o.predict_f_samples(Xnew, num_samples)
 end
 
+"""
+    Gaussian Process Regression.
+
+    This is a vanilla implementation of GP regression with a Gaussian
+    likelihood. In this case inference is exact, but costs O(N^3). This means
+    that we can compute the predictive distributions (predict_f, predict_y) in
+    closed-form, as well as the marginal likelihood, which we use to estimate
+    (optimize) the kernel parameters. 
+    
+    Multiple columns of Y are treated independently, using the same kernel. 
+
+    The log likelihood of this model is sometimes referred to as the
+    'marginal log likelihood', and is given by
+
+    .. math::
+
+       \\log p(\\mathbf y | \\mathbf f) = \\mathcal N(\\mathbf y | 0, \\mathbf K + \\sigma_n \\mathbf I)
+"""
 mutable struct GPR{T1,T2} <: GPModel
     X::T1
     Y::T2
@@ -58,6 +76,22 @@ end
 
 
 # TODO: SGPRUpperMixin required?
+"""
+    Sparse Variational GP regression. The key reference is
+
+    ::
+
+      @inproceedings{titsias2009variational,
+        title={Variational learning of inducing variables in
+               sparse Gaussian processes},
+        author={Titsias, Michalis K},
+        booktitle={International Conference on
+                   Artificial Intelligence and Statistics},
+        pages={567--574},
+        year={2009}
+      }
+
+"""
 mutable struct SGPR{T1,T2,T3} <: GPModel
     X::T1
     Y::T2
@@ -96,6 +130,23 @@ function instantiate!(o::Union{SGPR, Nothing})
     return o.o
 end
 
+"""
+    This method approximates the Gaussian process posterior using a multivariate Gaussian.
+
+    The idea is that the posterior over the function-value vector F is
+    approximated by a Gaussian, and the KL divergence is minimised between
+    the approximation and the posterior.
+
+    This implementation is equivalent to svgp with X=Z, but is more efficient.
+    The whitened representation is used to aid optimization.
+
+    The posterior approximation is
+
+    .. math::
+
+       q(\\mathbf f) = N(\\mathbf f \\,|\\, \\boldsymbol \\mu, \\boldsymbol \\Sigma)
+
+"""
 mutable struct VGP{T1,T2} <: GPModel
     X::T1
     Y::T2
@@ -133,6 +184,20 @@ function instantiate!(o::VGP)
     return o.o
 end
 
+"""
+    This is the Sparse Variational GP (SVGP). The key reference is
+
+    ::
+
+    @inproceedings{hensman2014scalable,
+        title={Scalable Variational Gaussian Process Classification},
+        author={Hensman, James and Matthews,
+                Alexander G. de G. and Ghahramani, Zoubin},
+        booktitle={Proceedings of AISTATS},
+        year={2015}
+    }
+
+"""
 mutable struct SVGP{T1,T2,T3,T4,T5,T6} <: GPModel
     X::T1
     Y::T2
@@ -263,6 +328,37 @@ function instantiate!(o::GPMC)
 end
 
 
+"""
+    This is the Sparse Variational GP using MCMC (SGPMC). The key reference is
+
+    ::
+
+      @inproceedings{hensman2015mcmc,
+        title={MCMC for Variatinoally Sparse Gaussian Processes},
+        author={Hensman, James and Matthews, Alexander G. de G.
+                and Filippone, Maurizio and Ghahramani, Zoubin},
+        booktitle={Proceedings of NIPS},
+        year={2015}
+      }
+
+    The latent function values are represented by centered
+    (whitened) variables, so
+
+    .. math::
+       :nowrap:
+
+       \\begin{align}
+       \\mathbf v & \\sim N(0, \\mathbf I) \\\\
+       \\mathbf u &= \\mathbf L\\mathbf v
+       \\end{align}
+
+    with
+
+    .. math::
+        \\mathbf L \\mathbf L^\\top = \\mathbf K
+
+
+"""
 mutable struct SGPMC{T1,T2,T3,T4} <: GPModel
     X::T1
     Y::T2
