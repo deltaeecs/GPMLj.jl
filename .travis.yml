@@ -6,10 +6,19 @@ os:
 
 julia:
   - 1.0
-  - 1.1
   - nightly
 
+addons:
+  apt:
+    packages:
+      - python3-gpflow==1.5.1
+
+env:
+  matrix:
+    - PYTHON=python3
+
 codecov: true
+
 coveralls: true
 
 matrix:
