@@ -1,0 +1,21 @@
+language: julia
+
+os:
+  - linux
+  - osx
+
+julia:
+  - 1.0
+  - 1.1
+  - nightly
+
+codecov: true
+coveralls: true
+
+matrix:
+  allow_failures:
+    - julia: nightly
+  fast_finish: true
+
+notifications:
+  email: false
