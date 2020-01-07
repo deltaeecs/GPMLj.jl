@@ -8,11 +8,6 @@ julia:
   - 1.0
   - nightly
 
-addons:
-  apt:
-    packages:
-      - python3-gpflow==1.5.1
-
 env:
   matrix:
     - PYTHON=python3
