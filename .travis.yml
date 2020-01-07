@@ -1,5 +1,7 @@
 language: julia
 
+sudo: true 
+
 os:
   - linux
   - osx
@@ -8,14 +10,6 @@ julia:
   - 1.0
   - nightly
 
-env:
-  matrix:
-    - PYTHON=python3
-
-codecov: true
-
-coveralls: true
-
 matrix:
   allow_failures:
     - julia: nightly
@@ -23,3 +17,6 @@ matrix:
 
 notifications:
   email: false
+
+env:
+ - PYTHON=""
