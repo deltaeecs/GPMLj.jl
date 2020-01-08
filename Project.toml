@@ -1,6 +1,6 @@
 name = "GPJ"
 uuid = "1e25b1b3-a3a0-53b8-8729-934c9d7c4cc0"
-version = "0.1"
+version = "0.0.1"
 
 [deps]
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
