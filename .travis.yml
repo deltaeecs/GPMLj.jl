@@ -1,0 +1,22 @@
+language: julia
+
+sudo: true 
+
+os:
+  - linux
+  - osx
+
+julia:
+  - 1.0
+  - nightly
+
+matrix:
+  allow_failures:
+    - julia: nightly
+  fast_finish: true
+
+notifications:
+  email: false
+
+env:
+ - PYTHON=""
