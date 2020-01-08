@@ -4,5 +4,7 @@
 deps/deps.jl
 *.png
 
+.ipynb_checkpoints/
+
 Manifest.toml
 
