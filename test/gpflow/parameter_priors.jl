@@ -1,4 +1,4 @@
-using GPJ, Test, Random, PyCall
+using GPnet, Test, Random, PyCall
 
 Random.seed!(123)
 
