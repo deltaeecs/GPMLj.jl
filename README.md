@@ -12,7 +12,7 @@ To use GPnet.jl, you need to install Julia first and then install GPnet.jl.
 
 The following will install the latest version of GPnet.jl while inside Julia’s package manager (press `]` from the REPL):
 ```julia
-    add https://github.com/TuringLang/GPnet.jl/
+    add GPnet
     build GPnet   # this should install the GPFlow python package and its dependencies.
 ```
 
