@@ -3,8 +3,8 @@ This code is partially taken from Stheno.jl
 https://www.github..com/willtebbutt/Stheno.jl
 """
 
-using GPJ: ZeroKernel, OneKernel, ConstKernel, pw, Stretched, Scaled
-using GPJ: EQ, Exp, Linear, Noise, PerEQ, Matern32, Matern52, RQ, Cosine, Sum, Product, stretch,
+using GPnet: ZeroKernel, OneKernel, ConstKernel, pw, Stretched, Scaled
+using GPnet: EQ, Exp, Linear, Noise, PerEQ, Matern32, Matern52, RQ, Cosine, Sum, Product, stretch,
     Poly, GammaExp, Wiener, WienerVelocity, Precomputed
 using LinearAlgebra
 using TimerOutputs, Test, Random

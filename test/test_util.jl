@@ -1,6 +1,6 @@
 using BlockArrays, LinearAlgebra, FiniteDifferences, Zygote, Random
-using GPJ: Kernel, AV, pairwise, ew, pw, BlockData, blocks
-#using GPJ: AbstractGP
+using GPnet: Kernel, AV, pairwise, ew, pw, BlockData, blocks
+#using GPnet: AbstractGP
 using LinearAlgebra: AbstractTriangular
 using FiniteDifferences: j′vp
 import FiniteDifferences: to_vec
