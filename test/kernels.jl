@@ -3,8 +3,9 @@ This code is partially taken from Stheno.jl
 https://www.github..com/willtebbutt/Stheno.jl
 """
 
+using GPnet
 using GPnet: ZeroKernel, OneKernel, ConstKernel, pw#, Stretched, Scaled
-using GPnet: EQ#, Exp, Linear, Noise, PerEQ, Matern32, Matern52, RQ, Cosine, Sum, Product, stretch,
+using GPnet: EQ, PerEQ, Exp#, Linear, Noise, Matern32, Matern52, RQ, Cosine, Sum, Product, stretch,
     #Poly, GammaExp, Wiener, WienerVelocity, Precomputed
 using LinearAlgebra
 using TimerOutputs, Test, Random
@@ -52,14 +53,14 @@ include("test_util.jl")
             differentiable_kernel_tests(EQ(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
         end
 
-    #     @timedtestset "PerEQ" begin
-    #         differentiable_kernel_tests(PerEQ(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2; atol=1e-6)
-    #     end
+        @timedtestset "PerEQ" begin
+            differentiable_kernel_tests(PerEQ(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2; atol=1e-6)
+        end
 
-    #     @timedtestset "Exp" begin
-    #         differentiable_kernel_tests(Exp(), ȳ, Ȳ, Ȳ_sq, x0 .+ 1, x1, x2)
-    #         differentiable_kernel_tests(Exp(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
-    #     end
+        @timedtestset "Exp" begin
+            differentiable_kernel_tests(Exp(), ȳ, Ȳ, Ȳ_sq, x0 .+ 1, x1, x2)
+            differentiable_kernel_tests(Exp(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
+        end
 
     #     @timedtestset "Matern32" begin
     #         differentiable_kernel_tests(Matern32(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)

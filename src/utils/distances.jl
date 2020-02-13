@@ -3,8 +3,6 @@ This code is taken from Stheno.jl
 https://www.github..com/willtebbutt/Stheno.jl
 """
 
-const dtol = 1e-12 # threshold value for precise recalculation of distances
-
 # Implement some extensions to Euclidean and Squared-Euclidean distances.
 for (d, D) in [(:sqeuclidean, :SqEuclidean), (:euclidean, :Euclidean)]
     @eval begin

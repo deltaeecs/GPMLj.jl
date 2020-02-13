@@ -9,17 +9,11 @@ using Base.Broadcast: broadcast_shape
 using LinearAlgebra: isposdef, checksquare
 using Zygote: @adjoint
 
-const AV{T} = AbstractVector{T}
-const AM{T} = AbstractMatrix{T}
-const AVM{T} = AbstractVecOrMat{T}
-
 abstract type Kernel end
 
 #
 # Base Kernels
 #
-
-include(joinpath("utils", "distances.jl"))
 
 """
     ZeroKernel <: Kernel
@@ -95,37 +89,37 @@ pw(::EQ, x::AV) = exp.(.-pw(SqEuclidean(), x) ./ 2)
 
 
 
-# """
-#     PerEQ
+"""
+    PerEQ
 
-# The usual periodic kernel derived by mapping the input domain onto the unit circle.
-# """
-# struct PerEQ <: Kernel end
+The usual periodic kernel derived by mapping the input domain onto the unit circle.
+"""
+struct PerEQ <: Kernel end
 
-# # Binary methods.
-# ew(k::PerEQ, x::AV{<:Real}, x′::AV{<:Real}) = exp.(.-2 .* sin.(π .* abs.(x .- x′)).^2)
-# pw(k::PerEQ, x::AV{<:Real}, x′::AV{<:Real}) = exp.(.-2 .* sin.(π .* abs.(x .- x′')).^2)
+# Binary methods.
+ew(k::PerEQ, x::AV{<:Real}, x′::AV{<:Real}) = exp.(.-2 .* sin.(π .* abs.(x .- x′)).^2)
+pw(k::PerEQ, x::AV{<:Real}, x′::AV{<:Real}) = exp.(.-2 .* sin.(π .* abs.(x .- x′')).^2)
 
-# # Unary methods.
-# ew(::PerEQ, x::AV{<:Real}) = ones(eltype(x), length(x))
-# pw(k::PerEQ, x::AV{<:Real}) = pw(k, x, x)
+# Unary methods.
+ew(::PerEQ, x::AV{<:Real}) = ones(eltype(x), length(x))
+pw(k::PerEQ, x::AV{<:Real}) = pw(k, x, x)
 
 
 
-# """
-#     Exp <: Kernel
+"""
+    Exp <: Kernel
 
-# The standardised Exponential kernel.
-# """
-# struct Exp <: Kernel end
+The standardised Exponential kernel.
+"""
+struct Exp <: Kernel end
 
-# # Binary methods
-# ew(k::Exp, x::AV, x′::AV) = exp.(.-ew(Euclidean(), x, x′))
-# pw(k::Exp, x::AV, x′::AV) = exp.(.-pw(Euclidean(), x, x′))
+# Binary methods
+ew(k::Exp, x::AV, x′::AV) = exp.(.-ew(Euclidean(), x, x′))
+pw(k::Exp, x::AV, x′::AV) = exp.(.-pw(Euclidean(), x, x′))
 
-# # Unary methods
-# ew(::Exp, x::AV) = exp.(.-ew(Euclidean(), x))
-# pw(::Exp, x::AV) = exp.(.-pw(Euclidean(), x))
+# Unary methods
+ew(::Exp, x::AV) = exp.(.-ew(Euclidean(), x))
+pw(::Exp, x::AV) = exp.(.-pw(Euclidean(), x))
 
 
 

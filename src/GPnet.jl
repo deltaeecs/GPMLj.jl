@@ -1,6 +1,8 @@
 module GPnet
 
-using PyCall, Distances
+using PyCall, Distances, Random
+import Base.Broadcast: broadcast_shape
+using LinearAlgebra
 
 export
     gpflow,
@@ -24,8 +26,14 @@ function elementwise end
 const pw = pairwise
 const ew = elementwise
 
+const AV{T} = AbstractVector{T}
+const AM{T} = AbstractMatrix{T}
+const AVM{T} = AbstractVecOrMat{T}
+
 # Load necessary utilities
+include(joinpath("utils", "zygote_rules.jl"))
 include(joinpath("utils", "abstract_data_set.jl"))
+include(joinpath("utils", "distances.jl"))
 
 
 include("kernels.jl")
