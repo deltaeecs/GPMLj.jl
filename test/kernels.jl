@@ -5,7 +5,7 @@ https://www.github..com/willtebbutt/Stheno.jl
 
 using GPnet
 using GPnet: ZeroKernel, OneKernel, ConstKernel, pw#, Stretched, Scaled
-using GPnet: EQ, PerEQ, Exp#, Linear, Noise, Matern32, Matern52, RQ, Cosine, Sum, Product, stretch,
+using GPnet: EQ, PerEQ, Exp, Matern32, Matern52#, Linear, Noise, RQ, Cosine, Sum, Product, stretch,
     #Poly, GammaExp, Wiener, WienerVelocity, Precomputed
 using LinearAlgebra
 using TimerOutputs, Test, Random
@@ -62,15 +62,15 @@ include("test_util.jl")
             differentiable_kernel_tests(Exp(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
         end
 
-    #     @timedtestset "Matern32" begin
-    #         differentiable_kernel_tests(Matern32(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
-    #         differentiable_kernel_tests(Matern32(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
-    #     end
+        @timedtestset "Matern32" begin
+            differentiable_kernel_tests(Matern32(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
+            differentiable_kernel_tests(Matern32(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
+        end
 
-    #     @timedtestset "Matern52" begin
-    #         differentiable_kernel_tests(Matern52(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
-    #         differentiable_kernel_tests(Matern52(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
-    #     end
+        @timedtestset "Matern52" begin
+            differentiable_kernel_tests(Matern52(), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
+            differentiable_kernel_tests(Matern52(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
+        end
 
     #     @timedtestset "RQ" begin
     #         @timedtestset "α=1.0" begin

@@ -123,64 +123,64 @@ pw(::Exp, x::AV) = exp.(.-pw(Euclidean(), x))
 
 
 
-# """
-#     Matern12
+"""
+    Matern12
 
-# Equivalent to the Exponential kernel.
-# """
-# const Matern12 = Exp
-
-
-
-# """
-#     Matern32 <: Kernel
-
-# The Matern kernel with ν = 3 / 2
-# """
-# struct Matern32 <: Kernel end
-
-# function _matern32(d::Real)
-#     d = sqrt(3) * d
-#     return (1 + d) * exp(-d)
-# end
-
-# # Binary methods
-# ew(k::Matern32, x::AV, x′::AV) = _matern32.(ew(Euclidean(), x, x′))
-# pw(k::Matern32, x::AV, x′::AV) = _matern32.(pw(Euclidean(), x, x′))
-
-# # Unary methods
-# ew(k::Matern32, x::AV) = _matern32.(ew(Euclidean(), x))
-# pw(k::Matern32, x::AV) = _matern32.(pw(Euclidean(), x))
+Equivalent to the Exponential kernel.
+"""
+const Matern12 = Exp
 
 
 
-# """
-#     Matern52 <: Kernel
+"""
+    Matern32 <: Kernel
 
-# The Matern kernel with ν = 5 / 2
-# """
-# struct Matern52 <: Kernel end
+The Matern kernel with ν = 3 / 2
+"""
+struct Matern32 <: Kernel end
 
-# function _matern52(d::Real)
-#     λ = sqrt(5) * d
-#     return (1 + λ + λ^2 / 3) * exp(-λ)
-# end
+function _matern32(d::Real)
+    d = sqrt(3) * d
+    return (1 + d) * exp(-d)
+end
 
-# _matern52(d::AbstractArray{<:Real}) = _matern52.(d)
+# Binary methods
+ew(k::Matern32, x::AV, x′::AV) = _matern32.(ew(Euclidean(), x, x′))
+pw(k::Matern32, x::AV, x′::AV) = _matern32.(pw(Euclidean(), x, x′))
 
-# @adjoint function _matern52(d::AbstractArray{<:Real})
-#     λ = sqrt(5) .* d
-#     b = exp.(-λ)
-#     return (1 .+ λ .+ λ.^2 ./ 3) .* b, Δ->(.-Δ .* sqrt(5) .* b .* λ .* (1 .+ λ) ./ 3,)
-# end
+# Unary methods
+ew(k::Matern32, x::AV) = _matern32.(ew(Euclidean(), x))
+pw(k::Matern32, x::AV) = _matern32.(pw(Euclidean(), x))
 
-# # Binary methods
-# ew(k::Matern52, x::AV, x′::AV) = _matern52(ew(Euclidean(), x, x′))
-# pw(k::Matern52, x::AV, x′::AV) = _matern52(pw(Euclidean(), x, x′))
 
-# # Unary methods
-# ew(k::Matern52, x::AV) = _matern52(ew(Euclidean(), x))
-# pw(k::Matern52, x::AV) = _matern52(pw(Euclidean(), x))
+
+"""
+    Matern52 <: Kernel
+
+The Matern kernel with ν = 5 / 2
+"""
+struct Matern52 <: Kernel end
+
+function _matern52(d::Real)
+    λ = sqrt(5) * d
+    return (1 + λ + λ^2 / 3) * exp(-λ)
+end
+
+_matern52(d::AbstractArray{<:Real}) = _matern52.(d)
+
+@adjoint function _matern52(d::AbstractArray{<:Real})
+    λ = sqrt(5) .* d
+    b = exp.(-λ)
+    return (1 .+ λ .+ λ.^2 ./ 3) .* b, Δ->(.-Δ .* sqrt(5) .* b .* λ .* (1 .+ λ) ./ 3,)
+end
+
+# Binary methods
+ew(k::Matern52, x::AV, x′::AV) = _matern52(ew(Euclidean(), x, x′))
+pw(k::Matern52, x::AV, x′::AV) = _matern52(pw(Euclidean(), x, x′))
+
+# Unary methods
+ew(k::Matern52, x::AV) = _matern52(ew(Euclidean(), x))
+pw(k::Matern52, x::AV) = _matern52(pw(Euclidean(), x))
 
 
 
