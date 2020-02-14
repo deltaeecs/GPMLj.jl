@@ -184,43 +184,43 @@ pw(k::Matern52, x::AV) = _matern52(pw(Euclidean(), x))
 
 
 
-# """
-#     RQ <: Kernel
+"""
+    RQ <: Kernel
 
-# The standardised Rational Quadratic, with kurtosis `α`.
-# """
-# struct RQ{Tα<:Real} <: Kernel
-#     α::Tα
-# end
+The standardised Rational Quadratic, with kurtosis `α`.
+"""
+struct RQ{Tα<:Real} <: Kernel
+    α::Tα
+end
 
-# _rq(d, α) = (1 + d / (2α))^(-α)
+_rq(d, α) = (1 + d / (2α))^(-α)
 
-# # Binary methods.
-# ew(k::RQ, x::AV, x′::AV) = _rq.(ew(SqEuclidean(), x, x′), k.α)
-# pw(k::RQ, x::AV, x′::AV) = _rq.(pw(SqEuclidean(), x, x′), k.α)
+# Binary methods.
+ew(k::RQ, x::AV, x′::AV) = _rq.(ew(SqEuclidean(), x, x′), k.α)
+pw(k::RQ, x::AV, x′::AV) = _rq.(pw(SqEuclidean(), x, x′), k.α)
 
-# # Unary methods.
-# ew(k::RQ, x::AV) = _rq.(ew(SqEuclidean(), x), k.α)
-# pw(k::RQ, x::AV) = _rq.(pw(SqEuclidean(), x), k.α)
+# Unary methods.
+ew(k::RQ, x::AV) = _rq.(ew(SqEuclidean(), x), k.α)
+pw(k::RQ, x::AV) = _rq.(pw(SqEuclidean(), x), k.α)
 
 
 
-# """
-#     Cosine <: Kernel
+"""
+    Cosine <: Kernel
 
-# Cosine Kernel with period parameter `p`.
-# """
-# struct Cosine{Tp<:Real} <: Kernel
-#     p::Tp
-# end
+Cosine Kernel with period parameter `p`.
+"""
+struct Cosine{Tp<:Real} <: Kernel
+    p::Tp
+end
 
-# # Binary methods.
-# ew(k::Cosine, x::AV{<:Real}, x′::AV{<:Real}) = cos.(pi.*ew(Euclidean(), x, x′) ./k.p)
-# pw(k::Cosine, x::AV{<:Real}, x′::AV{<:Real}) = cos.(pi.*pw(Euclidean(), x, x′) ./k.p)
+# Binary methods.
+ew(k::Cosine, x::AV{<:Real}, x′::AV{<:Real}) = cos.(pi.*ew(Euclidean(), x, x′) ./k.p)
+pw(k::Cosine, x::AV{<:Real}, x′::AV{<:Real}) = cos.(pi.*pw(Euclidean(), x, x′) ./k.p)
 
-# # Unary methods.
-# ew(k::Cosine, x::AV{<:Real}) = 1 .+ ew(Euclidean(), x)
-# pw(k::Cosine, x::AV{<:Real}) = cos.(pi .* pw(Euclidean(), x) ./ k.p)
+# Unary methods.
+ew(k::Cosine, x::AV{<:Real}) = 1 .+ ew(Euclidean(), x)
+pw(k::Cosine, x::AV{<:Real}) = cos.(pi .* pw(Euclidean(), x) ./ k.p)
 
 
 
