@@ -224,43 +224,43 @@ pw(k::Cosine, x::AV{<:Real}) = cos.(pi .* pw(Euclidean(), x) ./ k.p)
 
 
 
-# """
-#     Linear{T<:Real} <: Kernel
+"""
+    Linear{T<:Real} <: Kernel
 
-# The standardised linear kernel / dot-product kernel.
-# """
-# struct Linear <: Kernel end
+The standardised linear kernel / dot-product kernel.
+"""
+struct Linear <: Kernel end
 
-# # Binary methods
-# ew(k::Linear, x::AV{<:Real}, x′::AV{<:Real}) = x .* x′
-# pw(k::Linear, x::AV{<:Real}, x′::AV{<:Real}) = x .* x′'
-# ew(k::Linear, x::ColVecs, x′::ColVecs) = reshape(sum(x.X .* x′.X; dims=1), :)
-# pw(k::Linear, x::ColVecs, x′::ColVecs) = x.X' * x′.X
+# Binary methods
+ew(k::Linear, x::AV{<:Real}, x′::AV{<:Real}) = x .* x′
+pw(k::Linear, x::AV{<:Real}, x′::AV{<:Real}) = x .* x′'
+ew(k::Linear, x::ColVecs, x′::ColVecs) = reshape(sum(x.X .* x′.X; dims=1), :)
+pw(k::Linear, x::ColVecs, x′::ColVecs) = x.X' * x′.X
 
-# # Unary methods
-# ew(k::Linear, x::AV{<:Real}) = x.^2
-# pw(k::Linear, x::AV{<:Real}) = x .* x'
-# ew(k::Linear, x::ColVecs) = reshape(sum(abs2.(x.X); dims=1), :)
-# pw(k::Linear, x::ColVecs) = x.X' * x.X
+# Unary methods
+ew(k::Linear, x::AV{<:Real}) = x.^2
+pw(k::Linear, x::AV{<:Real}) = x .* x'
+ew(k::Linear, x::ColVecs) = reshape(sum(abs2.(x.X); dims=1), :)
+pw(k::Linear, x::ColVecs) = x.X' * x.X
 
-# """
-#     LinearArd <: Kernel
-# ARD linear kernel (covariance)
-# ```math
-# k(x,x') = xᵀL⁻²x'
-# ```
-# with length scale ``ℓ = (ℓ₁, ℓ₂, …)`` and ``L = diag(ℓ₁, ℓ₂, …)``.
-# """
-# mutable struct LinearArd{T<:Real} <: Kernel
-#     "Length scale"
-#     ℓ::AV{T}
-#     "Priors for kernel parameters"
-#     priors::Array
-# end
+"""
+    LinearArd <: Kernel
+ARD linear kernel (covariance)
+```math
+k(x,x') = xᵀL⁻²x'
+```
+with length scale ``ℓ = (ℓ₁, ℓ₂, …)`` and ``L = diag(ℓ₁, ℓ₂, …)``.
+"""
+mutable struct LinearArd{T<:Real} <: Kernel
+    "Length scale"
+    ℓ::AV{T}
+    "Priors for kernel parameters"
+    priors::Array
+end
 
-# LinearArd(ll::AV{T}) where T = LinearArd{T}(exp.(ll), [])
+LinearArd(ll::AV{T}) where T = LinearArd{T}(exp.(ll), [])
 
-# ew(lin::LinearArd, x::AV, x′::AV) = dot(x./lin.ℓ, x′./lin.ℓ)
+ew(lin::LinearArd, x::AV, x′::AV) = dot(x./lin.ℓ, x′./lin.ℓ)
 
 
 
