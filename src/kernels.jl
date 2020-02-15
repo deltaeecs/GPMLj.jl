@@ -371,150 +371,150 @@ ew(k::Noise{T}, x::AV) where {T} = ones(T, length(x))
 pw(k::Noise{T}, x::AV) where {T} = diagm(0=>ones(T, length(x)))
 
 
-# """
-#     Precomputed{T<:Real} <: Kernel
+"""
+    Precomputed{T<:Real} <: Kernel
 
-# Using the values of a precomputed Gram matrix as a kernel.
+Using the values of a precomputed Gram matrix as a kernel.
 
-# Optionally checks if the Gram matrix is positive definite by setting
-# `checkpd=true`
-# """
-# struct Precomputed{M<:AbstractMatrix{<:Real}} <: Kernel
-#     K::M
-#     function Precomputed(K::AbstractMatrix{<:Real}; checkpd=false)
-#         checksquare(K)
-#         checkpd && @assert isposdef(K) "M is not positive definite"
-#         new{typeof(K)}(K)
-#     end
-# end
+Optionally checks if the Gram matrix is positive definite by setting
+`checkpd=true`
+"""
+struct Precomputed{M<:AbstractMatrix{<:Real}} <: Kernel
+    K::M
+    function Precomputed(K::AbstractMatrix{<:Real}; checkpd=false)
+        checksquare(K)
+        checkpd && @assert isposdef(K) "M is not positive definite"
+        new{typeof(K)}(K)
+    end
+end
 
-# # Binary methods.
-# ew(k::Precomputed, x::AV{<:Integer}, x′::AV{<:Integer}) = [k.K[p, q] for (p, q) in zip(x, x′)]
-# pw(k::Precomputed, x::AV{<:Integer}, x′::AV{<:Integer}) = k.K[x, x′]
+# Binary methods.
+ew(k::Precomputed, x::AV{<:Integer}, x′::AV{<:Integer}) = [k.K[p, q] for (p, q) in zip(x, x′)]
+pw(k::Precomputed, x::AV{<:Integer}, x′::AV{<:Integer}) = k.K[x, x′]
 
-# # Unary methods.
-# ew(k::Precomputed, x::AV{<:Integer}) = diag(k.K)[x]
-# pw(k::Precomputed, x::AV{<:Integer}) = k.K[x,x]
+# Unary methods.
+ew(k::Precomputed, x::AV{<:Integer}) = diag(k.K)[x]
+pw(k::Precomputed, x::AV{<:Integer}) = k.K[x,x]
 
-# precomputed(K::AbstractMatrix) = Precomputed(K)
-# export precomputed
-
-
-
-# #
-# # Composite Kernels
-# #
-
-# """
-#     Sum{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
-
-# Represents the sum of two kernels `kl` and `kr` s.t. `k(x, x′) = kl(x, x′) + kr(x, x′)`.
-# """
-# struct Sum{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
-#     kl::Tkl
-#     kr::Tkr
-# end
-
-# +(kl::Kernel, kr::Kernel) = Sum(kl, kr)
-
-# # Binary methods
-# ew(k::Sum, x::AV, x′::AV) = ew(k.kl, x, x′) + ew(k.kr, x, x′)
-# pw(k::Sum, x::AV, x′::AV) = pw(k.kl, x, x′) + pw(k.kr, x, x′)
-
-# # Unary methods
-# ew(k::Sum, x::AV) = ew(k.kl, x) + ew(k.kr, x)
-# pw(k::Sum, x::AV) = pw(k.kl, x) + pw(k.kr, x)
+precomputed(K::AbstractMatrix) = Precomputed(K)
+export precomputed
 
 
 
-# """
-#     Product{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
+#
+# Composite Kernels
+#
 
-# Represents the product of two kernels `kl` and `kr` s.t. `k(x, x′) = kl(x, x′) kr(x, x′)`.
-# """
-# struct Product{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
-#     kl::Tkl
-#     kr::Tkr
-# end
+"""
+    Sum{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
 
-# *(kl::Kernel, kr::Kernel) = Product(kl, kr)
+Represents the sum of two kernels `kl` and `kr` s.t. `k(x, x′) = kl(x, x′) + kr(x, x′)`.
+"""
+struct Sum{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
+    kl::Tkl
+    kr::Tkr
+end
 
-# # Binary methods
-# ew(k::Product, x::AV, x′::AV) = ew(k.kl, x, x′) .* ew(k.kr, x, x′)
-# pw(k::Product, x::AV, x′::AV) = pw(k.kl, x, x′) .* pw(k.kr, x, x′)
++(kl::Kernel, kr::Kernel) = Sum(kl, kr)
 
-# # Unary methods
-# ew(k::Product, x::AV) = ew(k.kl, x) .* ew(k.kr, x)
-# pw(k::Product, x::AV) = pw(k.kl, x) .* pw(k.kr, x)
+# Binary methods
+ew(k::Sum, x::AV, x′::AV) = ew(k.kl, x, x′) + ew(k.kr, x, x′)
+pw(k::Sum, x::AV, x′::AV) = pw(k.kl, x, x′) + pw(k.kr, x, x′)
 
-
-
-# """
-#     Scaled{Tσ²<:Real, Tk<:Kernel} <: Kernel
-
-# Scale the variance of `Kernel` `k` by `σ²` s.t. `(σ² * k)(x, x′) = σ² * k(x, x′)`.
-# """
-# struct Scaled{Tσ²<:Real, Tk<:Kernel} <: Kernel
-#     σ²::Tσ²
-#     k::Tk
-# end
-
-# *(σ²::Real, k::Kernel) = Scaled(σ², k)
-# *(k::Kernel, σ²) = σ² * k
-
-# # Binary methods.
-# ew(k::Scaled, x::AV, x′::AV) = k.σ² .* ew(k.k, x, x′)
-# pw(k::Scaled, x::AV, x′::AV) = k.σ² .* pw(k.k, x, x′)
-
-# # Unary methods.
-# ew(k::Scaled, x::AV) = k.σ² .* ew(k.k, x)
-# pw(k::Scaled, x::AV) = k.σ² .* pw(k.k, x)
+# Unary methods
+ew(k::Sum, x::AV) = ew(k.kl, x) + ew(k.kr, x)
+pw(k::Sum, x::AV) = pw(k.kl, x) + pw(k.kr, x)
 
 
 
-# """
-#     Stretched{Tk<:Kernel} <: Kernel
+"""
+    Product{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
 
-# Apply a length scale to a kernel. Specifically, `k(x, x′) = k(a * x, a * x′)`.
-# """
-# struct Stretched{Ta<:Union{Real, AV{<:Real}, AM{<:Real}}, Tk<:Kernel} <: Kernel
-#     a::Ta
-#     k::Tk
-# end
+Represents the product of two kernels `kl` and `kr` s.t. `k(x, x′) = kl(x, x′) kr(x, x′)`.
+"""
+struct Product{Tkl<:Kernel, Tkr<:Kernel} <: Kernel
+    kl::Tkl
+    kr::Tkr
+end
 
-# stretch(k::Kernel, a::Union{Real, AV{<:Real}, AM{<:Real}}) = Stretched(a, k)
+*(kl::Kernel, kr::Kernel) = Product(kl, kr)
 
-# # Binary methods (scalar `a`, scalar-valued input)
-# ew(k::Stretched{<:Real}, x::AV{<:Real}, x′::AV{<:Real}) = ew(k.k, k.a .* x, k.a .* x′)
-# pw(k::Stretched{<:Real}, x::AV{<:Real}, x′::AV{<:Real}) = pw(k.k, k.a .* x, k.a .* x′)
+# Binary methods
+ew(k::Product, x::AV, x′::AV) = ew(k.kl, x, x′) .* ew(k.kr, x, x′)
+pw(k::Product, x::AV, x′::AV) = pw(k.kl, x, x′) .* pw(k.kr, x, x′)
 
-# # Unary methods (scalar)
-# ew(k::Stretched{<:Real}, x::AV{<:Real}) = ew(k.k, k.a .* x)
-# pw(k::Stretched{<:Real}, x::AV{<:Real}) = pw(k.k, k.a .* x)
+# Unary methods
+ew(k::Product, x::AV) = ew(k.kl, x) .* ew(k.kr, x)
+pw(k::Product, x::AV) = pw(k.kl, x) .* pw(k.kr, x)
 
-# # Binary methods (scalar and vector `a`, vector-valued input)
-# function ew(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs, x′::ColVecs)
-#     return ew(k.k, ColVecs(k.a .* x.X), ColVecs(k.a .* x′.X))
-# end
-# function pw(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs, x′::ColVecs)
-#     return pw(k.k, ColVecs(k.a .* x.X), ColVecs(k.a .* x′.X))
-# end
 
-# # Unary methods (scalar and vector `a`, vector-valued input)
-# ew(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs) = ew(k.k, ColVecs(k.a .* x.X))
-# pw(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs) = pw(k.k, ColVecs(k.a .* x.X))
 
-# # Binary methods (matrix `a`, vector-valued input)
-# function ew(k::Stretched{<:AM{<:Real}}, x::ColVecs, x′::ColVecs)
-#     return ew(k.k, ColVecs(k.a * x.X), ColVecs(k.a * x′.X))
-# end
-# function pw(k::Stretched{<:AM{<:Real}}, x::ColVecs, x′::ColVecs)
-#     return pw(k.k, ColVecs(k.a * x.X), ColVecs(k.a * x′.X))
-# end
+"""
+    Scaled{Tσ²<:Real, Tk<:Kernel} <: Kernel
 
-# # Unary methods (scalar and vector `a`, vector-valued input)
-# ew(k::Stretched{<:AM{<:Real}}, x::ColVecs) = ew(k.k, ColVecs(k.a * x.X))
-# pw(k::Stretched{<:AM{<:Real}}, x::ColVecs) = pw(k.k, ColVecs(k.a * x.X))
+Scale the variance of `Kernel` `k` by `σ²` s.t. `(σ² * k)(x, x′) = σ² * k(x, x′)`.
+"""
+struct Scaled{Tσ²<:Real, Tk<:Kernel} <: Kernel
+    σ²::Tσ²
+    k::Tk
+end
+
+*(σ²::Real, k::Kernel) = Scaled(σ², k)
+*(k::Kernel, σ²) = σ² * k
+
+# Binary methods.
+ew(k::Scaled, x::AV, x′::AV) = k.σ² .* ew(k.k, x, x′)
+pw(k::Scaled, x::AV, x′::AV) = k.σ² .* pw(k.k, x, x′)
+
+# Unary methods.
+ew(k::Scaled, x::AV) = k.σ² .* ew(k.k, x)
+pw(k::Scaled, x::AV) = k.σ² .* pw(k.k, x)
+
+
+
+"""
+    Stretched{Tk<:Kernel} <: Kernel
+
+Apply a length scale to a kernel. Specifically, `k(x, x′) = k(a * x, a * x′)`.
+"""
+struct Stretched{Ta<:Union{Real, AV{<:Real}, AM{<:Real}}, Tk<:Kernel} <: Kernel
+    a::Ta
+    k::Tk
+end
+
+stretch(k::Kernel, a::Union{Real, AV{<:Real}, AM{<:Real}}) = Stretched(a, k)
+
+# Binary methods (scalar `a`, scalar-valued input)
+ew(k::Stretched{<:Real}, x::AV{<:Real}, x′::AV{<:Real}) = ew(k.k, k.a .* x, k.a .* x′)
+pw(k::Stretched{<:Real}, x::AV{<:Real}, x′::AV{<:Real}) = pw(k.k, k.a .* x, k.a .* x′)
+
+# Unary methods (scalar)
+ew(k::Stretched{<:Real}, x::AV{<:Real}) = ew(k.k, k.a .* x)
+pw(k::Stretched{<:Real}, x::AV{<:Real}) = pw(k.k, k.a .* x)
+
+# Binary methods (scalar and vector `a`, vector-valued input)
+function ew(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs, x′::ColVecs)
+    return ew(k.k, ColVecs(k.a .* x.X), ColVecs(k.a .* x′.X))
+end
+function pw(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs, x′::ColVecs)
+    return pw(k.k, ColVecs(k.a .* x.X), ColVecs(k.a .* x′.X))
+end
+
+# Unary methods (scalar and vector `a`, vector-valued input)
+ew(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs) = ew(k.k, ColVecs(k.a .* x.X))
+pw(k::Stretched{<:Union{Real, AV{<:Real}}}, x::ColVecs) = pw(k.k, ColVecs(k.a .* x.X))
+
+# Binary methods (matrix `a`, vector-valued input)
+function ew(k::Stretched{<:AM{<:Real}}, x::ColVecs, x′::ColVecs)
+    return ew(k.k, ColVecs(k.a * x.X), ColVecs(k.a * x′.X))
+end
+function pw(k::Stretched{<:AM{<:Real}}, x::ColVecs, x′::ColVecs)
+    return pw(k.k, ColVecs(k.a * x.X), ColVecs(k.a * x′.X))
+end
+
+# Unary methods (scalar and vector `a`, vector-valued input)
+ew(k::Stretched{<:AM{<:Real}}, x::ColVecs) = ew(k.k, ColVecs(k.a * x.X))
+pw(k::Stretched{<:AM{<:Real}}, x::ColVecs) = pw(k.k, ColVecs(k.a * x.X))
 
 # Create convenience versions of each of the kernels that accept a length scale.
 for (k, K) in (
@@ -532,21 +532,21 @@ for (k, K) in (
     @eval export $k
 end
 
-# rq(α) = RQ(α)
-# rq(α, l) = stretch(rq(α), l)
-# export rq
+rq(α) = RQ(α)
+rq(α, l) = stretch(rq(α), l)
+export rq
 
-# cosine(p) = Cosine(p)
-# cosine(p, l) = stretch(cosine(p), l)
-# export cosine
+cosine(p) = Cosine(p)
+cosine(p, l) = stretch(cosine(p), l)
+export cosine
 
-# γ_exponential(γ::Real) = GammaExp(γ)
-# γ_exponential(γ::Real, l::Union{Real, AV{<:Real}, AM{<:Real}}) = stretch(GammaExp(γ), l)
-# export γ_exponential
+γ_exponential(γ::Real) = GammaExp(γ)
+γ_exponential(γ::Real, l::Union{Real, AV{<:Real}, AM{<:Real}}) = stretch(GammaExp(γ), l)
+export γ_exponential
 
-# poly(p::Int, σ²::Real) = Poly(p, σ²)
-# poly(p::Int, σ²::Real, l::Union{Real, AV{<:Real}, AM{<:Real}}) = stretch(Poly(p, σ²), l)
-# export poly
+poly(p::Int, σ²::Real) = Poly(p, σ²)
+poly(p::Int, σ²::Real, l::Union{Real, AV{<:Real}, AM{<:Real}}) = stretch(Poly(p, σ²), l)
+export poly
 
 
 
