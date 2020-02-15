@@ -297,78 +297,78 @@ pw(k::Poly{p}, x::AV) where {p} = _poly.(pw(Linear(), x), k.σ², p)
 
 
 
-# """
-#     GammaExp
+"""
+    GammaExp
 
-# The γ-Exponential kernel, 0 < γ ⩽ 2, is given by `k(xl, xr) = exp(-||xl - xr||^γ)`.
-# """
-# struct GammaExp{Tγ<:Real} <: Kernel
-#     γ::Tγ
-# end
+The γ-Exponential kernel, 0 < γ ⩽ 2, is given by `k(xl, xr) = exp(-||xl - xr||^γ)`.
+"""
+struct GammaExp{Tγ<:Real} <: Kernel
+    γ::Tγ
+end
 
-# # Binary methods
-# ew(k::GammaExp, x::AV, x′::AV) = exp.(.-ew(Euclidean(), x, x′).^k.γ)
-# pw(k::GammaExp, x::AV, x′::AV) = exp.(.-pw(Euclidean(), x, x′).^k.γ)
+# Binary methods
+ew(k::GammaExp, x::AV, x′::AV) = exp.(.-ew(Euclidean(), x, x′).^k.γ)
+pw(k::GammaExp, x::AV, x′::AV) = exp.(.-pw(Euclidean(), x, x′).^k.γ)
 
-# # Unary methods
-# ew(k::GammaExp, x::AV) = exp.(.-ew(Euclidean(), x).^k.γ)
-# pw(k::GammaExp, x::AV) = exp.(.-pw(Euclidean(), x).^k.γ)
-
-
-
-# """
-#     Wiener <: Kernel
-
-# The standardised stationary Wiener-process kernel.
-# """
-# struct Wiener <: Kernel end
-
-# _wiener(x::Real, x′::Real) = min(x, x′)
-
-# # Binary methods
-# ew(k::Wiener, x::AV{<:Real}, x′::AV{<:Real}) = _wiener.(x, x′)
-# pw(k::Wiener, x::AV{<:Real}, x′::AV{<:Real}) = _wiener.(x, x′')
-
-# # Unary methods
-# ew(k::Wiener, x::AV{<:Real}) = x
-# pw(k::Wiener, x::AV{<:Real}) = pw(k, x, x)
+# Unary methods
+ew(k::GammaExp, x::AV) = exp.(.-ew(Euclidean(), x).^k.γ)
+pw(k::GammaExp, x::AV) = exp.(.-pw(Euclidean(), x).^k.γ)
 
 
 
-# """
-#     WienerVelocity <: Kernel
+"""
+    Wiener <: Kernel
 
-# The standardised WienerVelocity kernel.
-# """
-# struct WienerVelocity <: Kernel end
+The standardised stationary Wiener-process kernel.
+"""
+struct Wiener <: Kernel end
 
-# _wiener_vel(x::Real, x′::Real) = min(x, x′)^3 / 3 + abs(x - x′) * min(x, x′)^2 / 2
+_wiener(x::Real, x′::Real) = min(x, x′)
 
-# # Binary methods
-# ew(k::WienerVelocity, x::AV{<:Real}, x′::AV{<:Real}) = _wiener_vel.(x, x′)
-# pw(k::WienerVelocity, x::AV{<:Real}, x′::AV{<:Real}) = _wiener_vel.(x, x′')
+# Binary methods
+ew(k::Wiener, x::AV{<:Real}, x′::AV{<:Real}) = _wiener.(x, x′)
+pw(k::Wiener, x::AV{<:Real}, x′::AV{<:Real}) = _wiener.(x, x′')
 
-# # Unary methods
-# ew(k::WienerVelocity, x::AV{<:Real}) = ew(k, x, x)
-# pw(k::WienerVelocity, x::AV{<:Real}) = pw(k, x, x)
+# Unary methods
+ew(k::Wiener, x::AV{<:Real}) = x
+pw(k::Wiener, x::AV{<:Real}) = pw(k, x, x)
 
 
 
-# """
-#     Noise{T<:Real} <: Kernel
+"""
+    WienerVelocity <: Kernel
 
-# The standardised aleatoric white-noise kernel. Isn't really a kernel, but never mind...
-# """
-# struct Noise{T<:Real} <: Kernel end
-# Noise() = Noise{Int}()
+The standardised WienerVelocity kernel.
+"""
+struct WienerVelocity <: Kernel end
 
-# # Binary methods.
-# ew(k::Noise{T}, x::AV, x′::AV) where {T} = zeros(T, broadcast_shape(size(x), size(x′))...)
-# pw(k::Noise{T}, x::AV, x′::AV) where {T} = zeros(T, length(x), length(x′))
+_wiener_vel(x::Real, x′::Real) = min(x, x′)^3 / 3 + abs(x - x′) * min(x, x′)^2 / 2
 
-# # Unary methods.
-# ew(k::Noise{T}, x::AV) where {T} = ones(T, length(x))
-# pw(k::Noise{T}, x::AV) where {T} = diagm(0=>ones(T, length(x)))
+# Binary methods
+ew(k::WienerVelocity, x::AV{<:Real}, x′::AV{<:Real}) = _wiener_vel.(x, x′)
+pw(k::WienerVelocity, x::AV{<:Real}, x′::AV{<:Real}) = _wiener_vel.(x, x′')
+
+# Unary methods
+ew(k::WienerVelocity, x::AV{<:Real}) = ew(k, x, x)
+pw(k::WienerVelocity, x::AV{<:Real}) = pw(k, x, x)
+
+
+
+"""
+    Noise{T<:Real} <: Kernel
+
+The standardised aleatoric white-noise kernel. Isn't really a kernel, but never mind...
+"""
+struct Noise{T<:Real} <: Kernel end
+Noise() = Noise{Int}()
+
+# Binary methods.
+ew(k::Noise{T}, x::AV, x′::AV) where {T} = zeros(T, broadcast_shape(size(x), size(x′))...)
+pw(k::Noise{T}, x::AV, x′::AV) where {T} = zeros(T, length(x), length(x′))
+
+# Unary methods.
+ew(k::Noise{T}, x::AV) where {T} = ones(T, length(x))
+pw(k::Noise{T}, x::AV) where {T} = diagm(0=>ones(T, length(x)))
 
 
 # """
@@ -519,13 +519,13 @@ pw(k::Poly{p}, x::AV) where {p} = _poly.(pw(Linear(), x), k.σ², p)
 # Create convenience versions of each of the kernels that accept a length scale.
 for (k, K) in (
     (:eq, :EQ),
-    # (:exponential, :Exp),
-    # (:matern12, :Matern12),
-    # (:matern32, :Matern32),
-    # (:matern52, :Matern52),
-    # (:linear, :Linear),
-    # (:wiener, :Wiener),
-    # (:wiener_velocity, :WienerVelocity),
+    (:exponential, :Exp),
+    (:matern12, :Matern12),
+    (:matern32, :Matern32),
+    (:matern52, :Matern52),
+    (:linear, :Linear),
+    (:wiener, :Wiener),
+    (:wiener_velocity, :WienerVelocity),
 )
     @eval $k() = $K()
     @eval $k(a::Union{Real, AV{<:Real}, AM{<:Real}}) = stretch($k(), a)

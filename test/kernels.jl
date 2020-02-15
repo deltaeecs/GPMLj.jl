@@ -5,8 +5,8 @@ https://www.github..com/willtebbutt/Stheno.jl
 
 using GPnet
 using GPnet: ZeroKernel, OneKernel, ConstKernel, pw#, Stretched, Scaled
-using GPnet: EQ, PerEQ, Exp, Matern32, Matern52, RQ, Cosine, Linear, Poly#, Noise, Cosine, Sum, Product, stretch,
-    #Poly, GammaExp, Wiener, WienerVelocity, Precomputed
+using GPnet: EQ, PerEQ, Exp, Matern32, Matern52, RQ, Cosine, Linear, Poly, GammaExp, Wiener, WienerVelocity, Noise#, Sum, Product, stretch,
+    #Poly, Precomputed
 using LinearAlgebra
 using TimerOutputs, Test, Random
 const to = TimerOutput()
@@ -130,34 +130,34 @@ include("test_util.jl")
             end
         end
 
-    #     @timedtestset "GammaExp" begin
-    #         @test pw(GammaExp(2.0), x0) ≈ pw(stretch(EQ(), sqrt(2)), x0)
-    #         @testset "γ=$γ" for γ in [1.0, 1.5, 2.0]
-    #             differentiable_kernel_tests(GammaExp(γ), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
-    #             differentiable_kernel_tests(GammaExp(γ), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
-    #         end
-    #     end
+        @timedtestset "GammaExp" begin
+            @test_broken pw(GammaExp(2.0), x0) ≈ pw(stretch(EQ(), sqrt(2)), x0)
+            @testset "γ=$γ" for γ in [1.0, 1.5, 2.0]
+                differentiable_kernel_tests(GammaExp(γ), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
+                differentiable_kernel_tests(GammaExp(γ), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
+            end
+        end
 
-    #     @timedtestset "Wiener" begin
-    #         x0 = collect(range(0.1, 2.0; length=N)) .+ 1e-3 .* randn(rng, N)
-    #         x1 = collect(range(0.1, 2.3; length=N)) .+ 1e-3 .* randn(rng, N)
-    #         x2 = collect(range(0.1, 3.3; length=N′)) .+ 1e-3 .* randn(rng, N′)
-    #         kernel_tests(Wiener(), x0, x1, x2)
-    #     end
+        @timedtestset "Wiener" begin
+            x0 = collect(range(0.1, 2.0; length=N)) .+ 1e-3 .* randn(rng, N)
+            x1 = collect(range(0.1, 2.3; length=N)) .+ 1e-3 .* randn(rng, N)
+            x2 = collect(range(0.1, 3.3; length=N′)) .+ 1e-3 .* randn(rng, N′)
+            kernel_tests(Wiener(), x0, x1, x2)
+        end
 
-    #     @timedtestset "WienerVelocity" begin
-    #         x0 = collect(range(0.1, 2.0; length=N)) .+ 1e-3 .* randn(rng, N)
-    #         x1 = collect(range(0.1, 2.3; length=N)) .+ 1e-3 .* randn(rng, N)
-    #         x2 = collect(range(0.1, 3.3; length=N′)) .+ 1e-3 .* randn(rng, N′)
-    #         kernel_tests(WienerVelocity(), x0, x1, x2)
-    #     end
+        @timedtestset "WienerVelocity" begin
+            x0 = collect(range(0.1, 2.0; length=N)) .+ 1e-3 .* randn(rng, N)
+            x1 = collect(range(0.1, 2.3; length=N)) .+ 1e-3 .* randn(rng, N)
+            x2 = collect(range(0.1, 3.3; length=N′)) .+ 1e-3 .* randn(rng, N′)
+            kernel_tests(WienerVelocity(), x0, x1, x2)
+        end
 
-    #     @timedtestset "Noise" begin
-    #         @test ew(Noise(), x0, x0) == zeros(length(x0))
-    #         @test pw(Noise(), x0, x0) == zeros(length(x0), length(x0))
-    #         @test ew(Noise(), x0) == ones(length(x0))
-    #         @test pw(Noise(), x0) == Diagonal(ones(length(x0)))
-    #     end
+        @timedtestset "Noise" begin
+            @test ew(Noise(), x0, x0) == zeros(length(x0))
+            @test pw(Noise(), x0, x0) == zeros(length(x0), length(x0))
+            @test ew(Noise(), x0) == ones(length(x0))
+            @test pw(Noise(), x0) == Diagonal(ones(length(x0)))
+        end
 
     #     @timedtestset "precomputed" begin
     #         rng = MersenneTwister(123456)
