@@ -264,36 +264,36 @@ ew(lin::LinearArd, x::AV, x′::AV) = dot(x./lin.ℓ, x′./lin.ℓ)
 
 
 
-# """
-#     Poly{Tσ<:Real} <: Kernel
+"""
+    Poly{Tσ<:Real} <: Kernel
 
-# Inhomogeneous Polynomial kernel. `Poly(p, σ²)` creates a `Poly{p}` with variance σ²,
-# defined as
-# ```julia
-# k(xl, xr) = (dot(xl, xr) + σ²)^p
-# ```
-# """
-# struct Poly{p, Tσ²<:Real} <: Kernel
-#     σ²::Tσ²
-# end
-# Poly(p::Int, σ²::Real) = Poly{p, typeof(σ²)}(σ²)
+Inhomogeneous Polynomial kernel. `Poly(p, σ²)` creates a `Poly{p}` with variance σ²,
+defined as
+```julia
+k(xl, xr) = (dot(xl, xr) + σ²)^p
+```
+"""
+struct Poly{p, Tσ²<:Real} <: Kernel
+    σ²::Tσ²
+end
+Poly(p::Int, σ²::Real) = Poly{p, typeof(σ²)}(σ²)
 
-# _poly(k, σ², p) = (σ² + k)^p
-# Zygote.@adjoint function _poly(k, σ², p)
-#     y = _poly(k, σ², p)
-#     return y, function(Δ)
-#         d = Δ * p * y / (σ² + k)
-#         return (d, d, nothing)
-#     end
-# end
+_poly(k, σ², p) = (σ² + k)^p
+Zygote.@adjoint function _poly(k, σ², p)
+    y = _poly(k, σ², p)
+    return y, function(Δ)
+        d = Δ * p * y / (σ² + k)
+        return (d, d, nothing)
+    end
+end
 
-# # Binary methods
-# ew(k::Poly{p}, x::AV, x′::AV) where {p} = _poly.(ew(Linear(), x, x′), k.σ², p)
-# pw(k::Poly{p}, x::AV, x′::AV) where {p} = _poly.(pw(Linear(), x, x′), k.σ², p)
+# Binary methods
+ew(k::Poly{p}, x::AV, x′::AV) where {p} = _poly.(ew(Linear(), x, x′), k.σ², p)
+pw(k::Poly{p}, x::AV, x′::AV) where {p} = _poly.(pw(Linear(), x, x′), k.σ², p)
 
-# # Unary methods
-# ew(k::Poly{p}, x::AV) where {p} = _poly.(ew(Linear(), x), k.σ², p)
-# pw(k::Poly{p}, x::AV) where {p} = _poly.(pw(Linear(), x), k.σ², p)
+# Unary methods
+ew(k::Poly{p}, x::AV) where {p} = _poly.(ew(Linear(), x), k.σ², p)
+pw(k::Poly{p}, x::AV) where {p} = _poly.(pw(Linear(), x), k.σ², p)
 
 
 

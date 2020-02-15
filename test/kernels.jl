@@ -5,7 +5,7 @@ https://www.github..com/willtebbutt/Stheno.jl
 
 using GPnet
 using GPnet: ZeroKernel, OneKernel, ConstKernel, pw#, Stretched, Scaled
-using GPnet: EQ, PerEQ, Exp, Matern32, Matern52, RQ, Cosine, Linear#, Noise, Cosine, Sum, Product, stretch,
+using GPnet: EQ, PerEQ, Exp, Matern32, Matern52, RQ, Cosine, Linear, Poly#, Noise, Cosine, Sum, Product, stretch,
     #Poly, GammaExp, Wiener, WienerVelocity, Precomputed
 using LinearAlgebra
 using TimerOutputs, Test, Random
@@ -122,13 +122,13 @@ include("test_util.jl")
             differentiable_kernel_tests(Linear(), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
         end
 
-    #     @timedtestset "Poly" begin
-    #         @test pw(Poly(1, 0.0), x0) ≈ pw(Linear(), x0)
-    #         @testset "Poly{$p}" for p in [1, 2, 3]
-    #             differentiable_kernel_tests(Poly(p, 0.5), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
-    #             differentiable_kernel_tests(Poly(p, 0.5), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
-    #         end
-    #     end
+        @timedtestset "Poly" begin
+            @test pw(Poly(1, 0.0), x0) ≈ pw(Linear(), x0)
+            @testset "Poly{$p}" for p in [1, 2, 3]
+                differentiable_kernel_tests(Poly(p, 0.5), ȳ, Ȳ, Ȳ_sq, x0, x1, x2)
+                differentiable_kernel_tests(Poly(p, 0.5), ȳ, Ȳ, Ȳ_sq, X0, X1, X2)
+            end
+        end
 
     #     @timedtestset "GammaExp" begin
     #         @test pw(GammaExp(2.0), x0) ≈ pw(stretch(EQ(), sqrt(2)), x0)
