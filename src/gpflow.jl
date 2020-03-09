@@ -1,7 +1,7 @@
 module gpflow
 
-using GPnet, PyCall
-import ..GPnet: instantiate!, minimize!, predict_f, predict_f_samples, GPFlowObject
+using GPMLj, PyCall
+import ..GPMLj: instantiate!, minimize!, predict_f, predict_f_samples, GPFlowObject
 export  
     py_gpflow, 
     instantiate!,

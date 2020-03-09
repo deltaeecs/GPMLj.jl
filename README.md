@@ -1,6 +1,6 @@
-# GPnet.jl
+# GPMLj.jl
 
-[![Build Status](https://travis-ci.com/TuringLang/GPnet.jl.svg?branch=master)](https://travis-ci.org/TuringLang/GPnet.jl)
+[![Build Status](https://travis-ci.com/TuringLang/GPMLj.jl.svg?branch=master)](https://travis-ci.org/TuringLang/GPMLj.jl)
 
 A GP library in Julia.
 
@@ -8,12 +8,12 @@ Currently this package interfaces with [GPFlow](https://github.com/GPflow/GPflow
 
 ## Getting Started
 
-To use GPnet.jl, you need to install Julia first and then install GPnet.jl.
+To use GPMLj.jl, you need to install Julia first and then install GPMLj.jl.
 
-The following will install the latest version of GPnet.jl while inside Julia’s package manager (press `]` from the REPL):
+The following will install the latest version of GPMLj.jl while inside Julia’s package manager (press `]` from the REPL):
 ```julia
-    add GPnet
-    build GPnet   # this should install the GPFlow python package and its dependencies.
+    add GPMLj
+    build GPMLj   # this should install the GPFlow python package and its dependencies.
 ```
 
 ## Plan

@@ -1,4 +1,4 @@
-module GPnet
+module GPMLj
 
 using PyCall
 

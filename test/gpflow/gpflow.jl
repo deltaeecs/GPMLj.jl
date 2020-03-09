@@ -1,4 +1,4 @@
-using GPnet, Test, Random
+using GPMLj, Test, Random
 
 include("kernels.jl")
 include("likelihoods.jl")

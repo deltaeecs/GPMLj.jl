@@ -1,4 +1,4 @@
-using GPnet, Test, Random
+using GPMLj, Test, Random
 
 Random.seed!(123456)
 
