@@ -1,6 +1,6 @@
 # GPMLj.jl
 
-[![Build Status](https://travis-ci.com/TuringLang/GPMLj.jl.svg?branch=master)](https://travis-ci.org/TuringLang/GPMLj.jl)
+[![Build Status](https://travis-ci.com/TuringLang/GPMLj.jl.svg?branch=master)](https://travis-ci.com/TuringLang/GPMLj.jl)
 
 A GP library in Julia.
 
