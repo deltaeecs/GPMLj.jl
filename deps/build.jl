@@ -3,7 +3,7 @@ using PyCall
 println("Running build.jl for the GPMLj package.")
 
 # Change that to whatever packages you need.
-const PACKAGES = ["gpflow==2.2.1", "tensorflow==2.6.1"]
+const PACKAGES = ["gpflow==2.2.1", "tensorflow==2.6.0"]
 
 # Use eventual proxy info
 proxy_arg=String[]
